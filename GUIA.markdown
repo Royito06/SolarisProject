@@ -102,7 +102,7 @@ Esto es un error de lógica de base de datos. Un revisor no "pertenece" a una so
 
 * **Corrección en el plan:** Quien tome esta tarea debe cambiar ese método para usar la relación correcta: `return $this->hasMany(Validaciones::class, 'id_revisor');`. De lo contrario, el rastreo de auditoría fallará al intentar recuperar el historial.
 
-**2. Campos obligatorios en la migración de Revisores (Afecta la Fase 2 - Historias 1 y 6)**
+**2. Campos obligatorios en la migración de Revisores (Afecta la Fase 2 - Historias 1 e Historia 6)**
 El plan indica que el sistema recibirá una lista de correos separados por comas y los guardará automáticamente. Sin embargo, la migración comentada `...create_revisores_table.php` exige `nombre`, `apellido_paterno` y `apellido_materno`. Al intentar guardar solo el correo, MySQL arrojará un error fatal por campos faltantes.
 
 * **Corrección en el plan:** Antes de ejecutar la migración, el equipo debe modificar el archivo para permitir valores nulos en esos campos (ej. `$table->string('nombre')->nullable();`), o asegurarse de inyectar cadenas de texto genéricas (como `'Por definir'`) en el método `firstOrCreate` del controlador.
