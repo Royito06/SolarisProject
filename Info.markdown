@@ -13,7 +13,7 @@
 
 __________________________________________________________________
 
-**FASE 2:Mapeo de la Base de Datos**
+**FASE 2: Mapeo de la Base de Datos**
 
 Al analizar las imágenes, me he dado cuenta de que **el desarrollador original ya había contemplado (o al menos iniciado) la figura del "Revisor" y la lógica de "Validaciones"**.
 
