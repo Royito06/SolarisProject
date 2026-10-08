@@ -93,7 +93,7 @@ El proceso concluye informando a los participantes y generando los reportes para
 
 _______________________________________________
 
-Al analizar detenidamente el plan de ruta frente a los fragmentos de código heredado que compartiste, encontré tres detalles técnicos críticos u omisiones que le causarán errores de SQL a ti, a Rodrigo y a Alberto si no los ajustan antes de comenzar a programar.
+**ERRORES E IRREGULARIDADES**
 
 Las 14 historias de usuario están correctamente asignadas en sus respectivas fases, pero deben agregar estas tres correcciones a la guía técnica del equipo:
 
