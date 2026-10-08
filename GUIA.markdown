@@ -111,6 +111,3 @@ El plan indica que el sistema recibirá una lista de correos separados por comas
 El plan establece que se debe capturar el ID del revisor en sesión (`Auth::guard('revisor')->user()->id`) y guardarlo en la tabla `validaciones`. Dado que no analizamos el interior del archivo `...create_validaciones_table.php`, existe el riesgo de que el desarrollador original no haya contemplado esta columna.
 
 * **Corrección en el plan:** El equipo debe abrir la migración de `validaciones` y confirmar que exista un campo destinado a esto (idealmente `$table->unsignedBigInteger('id_revisor');` con su respectiva llave foránea). Si no existe, deberán crear una nueva migración (`php artisan make:migration add_id_revisor_to_validaciones_table`) para añadir la columna, de lo contrario los datos de la Historia 14 no tendrán dónde almacenarse.
-
-**ERRORES E IRREGULARIDADES**
-
