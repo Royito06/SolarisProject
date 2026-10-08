@@ -91,9 +91,7 @@ El proceso concluye informando a los participantes y generando los reportes para
 * **Historia 12 (Exportación de datos):** La descarga de la tabla procesada en formato útil (CSV o Excel).
 * **Historia 13 (Notificación automática de validación):** El cierre del ciclo comunicando la resolución final al estudiante inscrito.
 
-_______________________________________________
-
-**ERRORES E IRREGULARIDADES**
+## ERRORES E IRREGULARIDADES
 
 Las 14 historias de usuario están correctamente asignadas en sus respectivas fases, pero deben agregar estas tres correcciones a la guía técnica del equipo:
 
