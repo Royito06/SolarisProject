@@ -1,0 +1,17 @@
+@charset "UTF-8";
+
+.h-principal{
+    background-color: #9e9e9e; 
+    font-size: 32px; 
+    text-align: center;
+}
+
+.h-secundario{
+    background-color: #e0e0e0; 
+    font-size: 20px; 
+    text-align: center;
+}
+
+.container-h-secundario{
+    margin-top: 20px;
+}

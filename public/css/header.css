@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+/* Barra superior del header */
+
+.top-header{
+    background-color: #004990; 
+    height: 35px;
+}
+
+.center-header{
+    height: 145px;
+}
+
+.ban-tit{
+  position: relative; 
+  margin-top: 0.5em; 
+  /* margin-left: 2em; */
+  font-family: 'Conv_ZapfHumanist', Sans-Serif;
+}
+
+#tit{
+  font-size: 36px;
+  font-weight: bold;
+}
+
+#sub{
+  color: #444444; 
+  font-size: 26px;
+}
+
+nav{
+    height: 50px;
+    background-color: #f7a11a;
+}
+@media screen and (max-width: 767px) {
+  nav{
+    height: auto;
+  }
+
+  .ban-tit{
+    padding-left: 45px;
+  }
+
+  #tit{
+    font-size: 26px;
+  }
+  
+  #sub{
+    font-size: 16px;
+  }
+
+  @media screen and (max-width: 576px) {
+    #tit{
+      font-size: 0px;
+    }
+    
+    #sub{
+      font-size: 0px;
+    }
+  }
+}
+
+.txt-brand {
+  display: inline-block;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white;
+  font-size: 16px;
+  font-family: 'Conv_ZapfHumanist', Sans-Serif;
+  text-transform: uppercase;
+}
+
+
+.txt-brand:hover,
+.txt-brand:focus {
+  text-decoration: none;
+}
+
+.txt-brand {
+  color: rgba(255, 255, 255);
+}
+
+.active,
+.txt-brand:hover,
+.txt-brand:focus {
+  color: rgba(255, 255, 255);
+  background-color: rgb(37, 54, 103);
+}
+
+/* Esto no va aqui pero ... já */
+.tabla-cursos{
+  width: 500px; 
+  margin: 0 auto;
+}

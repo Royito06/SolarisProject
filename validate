@@ -1,0 +1,590 @@
+./busquedaActa.txt:./app/Http/Controllers/ValidacionesController.php:        if(!$request->fotoRechazo && /*!$request->actaRechazo &&*/ !$request->constanciaRechazo){
+./busquedaActa.txt:./app/Http/Controllers/ValidacionesController.php:            $doc_rechazo = [$request->fotoRechazo, /*$request->actaRechazo,*/ $request->constanciaRechazo];
+./busquedaActa.txt:./app/Http/Controllers/DocumentosController.php:            //'acta_asistente'     => $request->file('acta_asistente')->getClientOriginalExtension(),
+./busquedaActa.txt:./app/Http/Controllers/DocumentosController.php:        //$request->hasFile('acta_asistente') ? $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente'],'public') : '';
+./busquedaActa.txt:./app/Http/Controllers/DocumentosController.php:            //'acta_asistente'     => $request->hasFile('acta_asistente') ? $request->file('acta_asistente')->getClientOriginalExtension() : '',
+./busquedaActa.txt:./app/Http/Controllers/DocumentosController.php: //       $request->hasFile('acta_asistente') ? $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente'],'public') : '';
+./routes/api.php:    return $request->user();
+./vendor/symfony/routing/Router.php:            return $matcher->match($request->getPathInfo());
+./vendor/symfony/routing/Matcher/TraceableUrlMatcher.php:        $traces = $this->getTraces($request->getPathInfo());
+./vendor/symfony/routing/Matcher/UrlMatcher.php:        $ret = $this->match($request->getPathInfo());
+./vendor/symfony/routing/RequestContext.php:        $this->setBaseUrl($request->getBaseUrl());
+./vendor/symfony/routing/RequestContext.php:        $this->setPathInfo($request->getPathInfo());
+./vendor/symfony/routing/RequestContext.php:        $this->setMethod($request->getMethod());
+./vendor/symfony/routing/RequestContext.php:        $this->setHost($request->getHost());
+./vendor/symfony/routing/RequestContext.php:        $this->setScheme($request->getScheme());
+./vendor/symfony/routing/RequestContext.php:        $this->setHttpPort($request->isSecure() || null === $request->getPort() ? $this->httpPort : $request->getPort());
+./vendor/symfony/routing/RequestContext.php:        $this->setHttpsPort($request->isSecure() && null !== $request->getPort() ? $request->getPort() : $this->httpsPort);
+./vendor/symfony/routing/RequestContext.php:        $this->setQueryString($request->server->get('QUERY_STRING', ''));
+./vendor/symfony/var-dumper/Dumper/ContextProvider/RequestContextProvider.php:        $controller = $request->attributes->get('_controller');
+./vendor/symfony/var-dumper/Dumper/ContextProvider/RequestContextProvider.php:            'uri' => $request->getUri(),
+./vendor/symfony/var-dumper/Dumper/ContextProvider/RequestContextProvider.php:            'method' => $request->getMethod(),
+./vendor/symfony/error-handler/ErrorRenderer/SerializerErrorRenderer.php:            return $request->getPreferredFormat();
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:            return $debug && $request->attributes->getBoolean('showException', true);
+./vendor/symfony/error-handler/ErrorRenderer/HtmlErrorRenderer.php:            $startObLevel = $request->headers->get('X-Php-Ob-Level', -1);
+./vendor/symfony/http-kernel/Profiler/Profiler.php:        $profile->setUrl($request->getUri());
+./vendor/symfony/http-kernel/Profiler/Profiler.php:        $profile->setMethod($request->getMethod());
+./vendor/symfony/http-kernel/Profiler/Profiler.php:            $profile->setIp($request->getClientIp());
+./vendor/symfony/http-kernel/DataCollector/TimeDataCollector.php:            $startTime = $request->server->get('REQUEST_TIME_FLOAT');
+./vendor/symfony/http-kernel/DataCollector/DumpDataCollector.php:        if ($this->dumper || ($this->requestStack && $this->requestStack->getMasterRequest() !== $request) || $request->isXmlHttpRequest() || $request->headers->has('Origin')) {
+./vendor/symfony/http-kernel/DataCollector/DumpDataCollector.php:            || 'html' !== $request->getRequestFormat()
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:        foreach ($request->attributes->all() as $key => $value) {
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:        $content = $request->getContent();
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:        if ($request->hasSession()) {
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:            $session = $request->getSession();
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:            'method' => $request->getMethod(),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:            'format' => $request->getRequestFormat(),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:            'request_query' => $request->query->all(),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:            'request_request' => $request->request->all(),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:            'request_files' => $request->files->all(),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:            'request_headers' => $request->headers->all(),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:            'request_server' => $request->server->all(),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:            'request_cookies' => $request->cookies->all(),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:            'path_info' => $request->getPathInfo(),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:            'locale' => $request->getLocale(),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:        if ($request->attributes->has('_redirected') && $redirectCookie = $request->cookies->get('sf_redirect')) {
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:                    'route' => $request->attributes->get('_route', 'n/a'),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:                    'method' => $request->getMethod(),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:                    'controller' => $this->parseController($request->attributes->get('_controller')),
+./vendor/symfony/http-kernel/DataCollector/RequestDataCollector.php:                0, '/', null, $request->isSecure(), true, false, 'lax'
+./vendor/symfony/http-kernel/Fragment/InlineFragmentRenderer.php:        $cookies = $request->cookies->all();
+./vendor/symfony/http-kernel/Fragment/InlineFragmentRenderer.php:        $server = $request->server->all();
+./vendor/symfony/http-kernel/Fragment/InlineFragmentRenderer.php:        if ($request->headers->has('Surrogate-Capability')) {
+./vendor/symfony/http-kernel/Fragment/InlineFragmentRenderer.php:            $subRequest->headers->set('Surrogate-Capability', $request->headers->get('Surrogate-Capability'));
+./vendor/symfony/http-kernel/Fragment/InlineFragmentRenderer.php:            $setSession = \Closure::bind(static function ($subRequest, $request) { $subRequest->session = $request->session; }, null, Request::class);
+./vendor/symfony/http-kernel/Fragment/InlineFragmentRenderer.php:        if ($request->get('_format')) {
+./vendor/symfony/http-kernel/Fragment/InlineFragmentRenderer.php:            $subRequest->attributes->set('_format', $request->get('_format'));
+./vendor/symfony/http-kernel/Fragment/InlineFragmentRenderer.php:        if ($request->getDefaultLocale() !== $request->getLocale()) {
+./vendor/symfony/http-kernel/Fragment/InlineFragmentRenderer.php:            $subRequest->setLocale($request->getLocale());
+./vendor/symfony/http-kernel/Fragment/HIncludeFragmentRenderer.php:            $uri = substr($this->signer->sign($this->generateFragmentUri($uri, $request, true)), \strlen($request->getSchemeAndHttpHost()));
+./vendor/symfony/http-kernel/Fragment/RoutableFragmentRenderer.php:            $reference->attributes['_format'] = $request->getRequestFormat();
+./vendor/symfony/http-kernel/Fragment/RoutableFragmentRenderer.php:            $reference->attributes['_locale'] = $request->getLocale();
+./vendor/symfony/http-kernel/Fragment/RoutableFragmentRenderer.php:            return $request->getUriForPath($path);
+./vendor/symfony/http-kernel/Fragment/RoutableFragmentRenderer.php:        return $request->getBaseUrl().$path;
+./vendor/symfony/http-kernel/Fragment/AbstractSurrogateFragmentRenderer.php:        return substr($fragmentUri, \strlen($request->getSchemeAndHttpHost()));
+./vendor/symfony/http-kernel/UriSigner.php:        $qs = ($qs = $request->server->get('QUERY_STRING')) ? '?'.$qs : '';
+./vendor/symfony/http-kernel/UriSigner.php:        // we cannot use $request->getUri() here as we want to work with the original URI (no query string reordering)
+./vendor/symfony/http-kernel/UriSigner.php:        return $this->check($request->getSchemeAndHttpHost().$request->getBaseUrl().$request->getPathInfo().$qs);
+./vendor/symfony/http-kernel/Debug/FileLinkFormatter.php:                    $request->getSchemeAndHttpHost().$this->urlFormat,
+./vendor/symfony/http-kernel/EventListener/LocaleListener.php:        if ($locale = $request->attributes->get('_locale')) {
+./vendor/symfony/http-kernel/EventListener/LocaleListener.php:            $request->setLocale($locale);
+./vendor/symfony/http-kernel/EventListener/LocaleListener.php:            $this->router->getContext()->setParameter('_locale', $request->getLocale());
+./vendor/symfony/http-kernel/EventListener/AbstractTestSessionListener.php:        if (!$request->hasSession()) {
+./vendor/symfony/http-kernel/EventListener/AbstractTestSessionListener.php:        $session = $request->getSession();
+./vendor/symfony/http-kernel/EventListener/ErrorListener.php:        $request = $request->duplicate(null, null, $attributes);
+./vendor/symfony/http-kernel/EventListener/ErrorListener.php:        $request->setMethod('GET');
+./vendor/symfony/http-kernel/EventListener/FragmentListener.php:        if ($this->fragmentPath !== rawurldecode($request->getPathInfo())) {
+./vendor/symfony/http-kernel/EventListener/FragmentListener.php:        if ($request->attributes->has('_controller')) {
+./vendor/symfony/http-kernel/EventListener/FragmentListener.php:            $request->query->remove('_path');
+./vendor/symfony/http-kernel/EventListener/FragmentListener.php:        parse_str($request->query->get('_path', ''), $attributes);
+./vendor/symfony/http-kernel/EventListener/FragmentListener.php:        $request->attributes->add($attributes);
+./vendor/symfony/http-kernel/EventListener/FragmentListener.php:        $request->attributes->set('_route_params', array_replace($request->attributes->get('_route_params', []), $attributes));
+./vendor/symfony/http-kernel/EventListener/FragmentListener.php:        $request->query->remove('_path');
+./vendor/symfony/http-kernel/EventListener/FragmentListener.php:        if (!$request->isMethodSafe()) {
+./vendor/symfony/http-kernel/EventListener/AbstractSessionListener.php:        if (!$request->hasSession()) {
+./vendor/symfony/http-kernel/EventListener/AbstractSessionListener.php:            $request->setSessionFactory(function () use (&$sess) { return $sess ?? $sess = $this->getSession(); });
+./vendor/symfony/http-kernel/EventListener/AbstractSessionListener.php:            $stateless = $request->attributes->get('_stateless');
+./vendor/symfony/http-kernel/EventListener/ValidateRequestListener.php:            $request->getClientIps();
+./vendor/symfony/http-kernel/EventListener/ValidateRequestListener.php:        $request->getHost();
+./vendor/symfony/http-kernel/EventListener/RouterListener.php:        if ($request->attributes->has('_controller')) {
+./vendor/symfony/http-kernel/EventListener/RouterListener.php:                $parameters = $this->matcher->match($request->getPathInfo());
+./vendor/symfony/http-kernel/EventListener/RouterListener.php:                    'request_uri' => $request->getUri(),
+./vendor/symfony/http-kernel/EventListener/RouterListener.php:                    'method' => $request->getMethod(),
+./vendor/symfony/http-kernel/EventListener/RouterListener.php:            $request->attributes->add($parameters);
+./vendor/symfony/http-kernel/EventListener/RouterListener.php:            $request->attributes->set('_route_params', $parameters);
+./vendor/symfony/http-kernel/EventListener/RouterListener.php:            $message = sprintf('No route found for "%s %s"', $request->getMethod(), $request->getPathInfo());
+./vendor/symfony/http-kernel/EventListener/RouterListener.php:            if ($referer = $request->headers->get('referer')) {
+./vendor/symfony/http-kernel/EventListener/RouterListener.php:            $message = sprintf('No route found for "%s %s": Method Not Allowed (Allow: %s)', $request->getMethod(), $request->getPathInfo(), implode(', ', $e->getAllowedMethods()));
+./vendor/symfony/http-kernel/EventListener/AddRequestFormatsListener.php:            $request->setFormat($format, $mimeTypes);
+./vendor/symfony/http-kernel/HttpCache/AbstractSurrogate.php:        if (null === $value = $request->headers->get('Surrogate-Capability')) {
+./vendor/symfony/http-kernel/HttpCache/AbstractSurrogate.php:        $current = $request->headers->get('Surrogate-Capability');
+./vendor/symfony/http-kernel/HttpCache/AbstractSurrogate.php:        $request->headers->set('Surrogate-Capability', $current ? $current.', '.$new : $new);
+./vendor/symfony/http-kernel/HttpCache/Store.php:            if ($this->requestsMatch(isset($entry[1]['vary'][0]) ? implode(', ', $entry[1]['vary']) : '', $request->headers->all(), $entry[0])) {
+./vendor/symfony/http-kernel/HttpCache/Store.php:        return 'md'.hash('sha256', $request->getUri());
+./vendor/symfony/http-kernel/HttpCache/Store.php:        return $request->headers->all();
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:        if (!$request->isMethodSafe()) {
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:        } elseif ($request->headers->has('expect') || !$request->isMethodCacheable()) {
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:        } elseif ($this->options['allow_reload'] && $request->isNoCache()) {
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:                        $subRequest = Request::create($uri, 'get', [], [], [], $request->server->all());
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:        if ('HEAD' === $request->getMethod()) {
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:        $requestEtags = $request->getETags();
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:        if ('HEAD' === $request->getMethod()) {
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:        if ($this->options['allow_revalidate'] && null !== $maxAge = $request->headers->getCacheControlDirective('max-age')) {
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:            if (!$request->isMethod('HEAD')) {
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:                if (\count($request->cookies->all())) {
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:            } elseif ($request->headers->has($key)) {
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:        $path = $request->getPathInfo();
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:        if ($qs = $request->getQueryString()) {
+./vendor/symfony/http-kernel/HttpCache/HttpCache.php:        return $request->getMethod().' '.$path;
+./vendor/symfony/http-kernel/HttpCache/SubRequestHandler.php:        $remoteAddr = $request->server->get('REMOTE_ADDR');
+./vendor/symfony/http-kernel/HttpCache/SubRequestHandler.php:                $request->headers->remove($name);
+./vendor/symfony/http-kernel/HttpCache/SubRequestHandler.php:                $request->server->remove('HTTP_'.$name);
+./vendor/symfony/http-kernel/HttpCache/SubRequestHandler.php:        foreach (array_reverse($request->getClientIps()) as $ip) {
+./vendor/symfony/http-kernel/HttpCache/SubRequestHandler.php:            $trustedValues[0] .= sprintf(';host="%s";proto=%s', $request->getHttpHost(), $request->getScheme());
+./vendor/symfony/http-kernel/HttpCache/SubRequestHandler.php:            $request->headers->set('Forwarded', $v = implode(', ', $trustedValues));
+./vendor/symfony/http-kernel/HttpCache/SubRequestHandler.php:            $request->server->set('HTTP_FORWARDED', $v);
+./vendor/symfony/http-kernel/HttpCache/SubRequestHandler.php:            $request->headers->set('X-Forwarded-For', $v = implode(', ', $trustedIps));
+./vendor/symfony/http-kernel/HttpCache/SubRequestHandler.php:            $request->server->set('HTTP_X_FORWARDED_FOR', $v);
+./vendor/symfony/http-kernel/HttpCache/SubRequestHandler.php:            $request->headers->set('X-Forwarded-For', $v = implode(', ', $trustedIps));
+./vendor/symfony/http-kernel/HttpCache/SubRequestHandler.php:            $request->server->set('HTTP_X_FORWARDED_FOR', $v);
+./vendor/symfony/http-kernel/HttpCache/SubRequestHandler.php:        $request->server->set('REMOTE_ADDR', '127.0.0.1');
+./vendor/symfony/http-kernel/HttpClientKernel.php:        $response = $this->client->request($request->getMethod(), $request->getUri(), [
+./vendor/symfony/http-kernel/HttpClientKernel.php:        ] + $request->attributes->get('http_client_options', []));
+./vendor/symfony/http-kernel/HttpClientKernel.php:        if (\in_array($request->getMethod(), ['GET', 'HEAD'])) {
+./vendor/symfony/http-kernel/HttpClientKernel.php:        if ($content = $request->getContent()) {
+./vendor/symfony/http-kernel/HttpClientKernel.php:        $fields = $request->request->all();
+./vendor/symfony/http-kernel/HttpClientKernel.php:        foreach ($request->files->all() as $name => $file) {
+./vendor/symfony/http-kernel/HttpClientKernel.php:        foreach ($request->headers as $key => $value) {
+./vendor/symfony/http-kernel/HttpClientKernel.php:        foreach ($request->cookies->all() as $name => $value) {
+./vendor/symfony/http-kernel/Controller/ErrorController.php:        $subRequest = $request->duplicate(null, null, [
+./vendor/symfony/http-kernel/Controller/ControllerResolver.php:        if (!$controller = $request->attributes->get('_controller')) {
+./vendor/symfony/http-kernel/Controller/ControllerResolver.php:                throw new \InvalidArgumentException(sprintf('The controller for URI "%s" is not callable: ', $request->getPathInfo()).$this->getControllerError($controller));
+./vendor/symfony/http-kernel/Controller/ControllerResolver.php:                throw new \InvalidArgumentException(sprintf('The controller for URI "%s" is not callable: ', $request->getPathInfo()).$this->getControllerError($controller));
+./vendor/symfony/http-kernel/Controller/ControllerResolver.php:            throw new \InvalidArgumentException(sprintf('The controller for URI "%s" is not callable: ', $request->getPathInfo()).$e->getMessage(), 0, $e);
+./vendor/symfony/http-kernel/Controller/ControllerResolver.php:            throw new \InvalidArgumentException(sprintf('The controller for URI "%s" is not callable: ', $request->getPathInfo()).$this->getControllerError($callable));
+./vendor/symfony/http-kernel/Controller/ArgumentResolver/ServiceValueResolver.php:        $controller = $request->attributes->get('_controller');
+./vendor/symfony/http-kernel/Controller/ArgumentResolver/ServiceValueResolver.php:        if (\is_array($controller = $request->attributes->get('_controller'))) {
+./vendor/symfony/http-kernel/Controller/ArgumentResolver/SessionValueResolver.php:        if (!$request->hasSession()) {
+./vendor/symfony/http-kernel/Controller/ArgumentResolver/SessionValueResolver.php:        return $request->getSession() instanceof $type;
+./vendor/symfony/http-kernel/Controller/ArgumentResolver/SessionValueResolver.php:        yield $request->getSession();
+./vendor/symfony/http-kernel/Controller/ArgumentResolver/RequestAttributeValueResolver.php:        return !$argument->isVariadic() && $request->attributes->has($argument->getName());
+./vendor/symfony/http-kernel/Controller/ArgumentResolver/RequestAttributeValueResolver.php:        yield $request->attributes->get($argument->getName());
+./vendor/symfony/http-kernel/Controller/ArgumentResolver/NotTaggedControllerValueResolver.php:        $controller = $request->attributes->get('_controller');
+./vendor/symfony/http-kernel/Controller/ArgumentResolver/NotTaggedControllerValueResolver.php:        if (\is_array($controller = $request->attributes->get('_controller'))) {
+./vendor/symfony/http-kernel/Controller/ArgumentResolver/VariadicValueResolver.php:        return $argument->isVariadic() && $request->attributes->has($argument->getName());
+./vendor/symfony/http-kernel/Controller/ArgumentResolver/VariadicValueResolver.php:        $values = $request->attributes->get($argument->getName());
+./vendor/symfony/http-kernel/HttpKernelBrowser.php:        $httpRequest = Request::create($request->getUri(), $request->getMethod(), $request->getParameters(), $request->getCookies(), $request->getFiles(), $server = $request->getServer(), $request->getContent());
+./vendor/symfony/http-kernel/HttpKernel.php:        $request->headers->set('X-Php-Ob-Level', (string) ob_get_level());
+./vendor/symfony/http-kernel/HttpKernel.php:            throw new NotFoundHttpException(sprintf('Unable to find the controller for path "%s". The route is wrongly configured.', $request->getPathInfo()));
+./vendor/symfony/http-foundation/RequestMatcher.php:        if ($this->schemes && !\in_array($request->getScheme(), $this->schemes, true)) {
+./vendor/symfony/http-foundation/RequestMatcher.php:        if ($this->methods && !\in_array($request->getMethod(), $this->methods, true)) {
+./vendor/symfony/http-foundation/RequestMatcher.php:            if (!preg_match('{'.$pattern.'}', $request->attributes->get($key))) {
+./vendor/symfony/http-foundation/RequestMatcher.php:        if (null !== $this->path && !preg_match('{'.$this->path.'}', rawurldecode($request->getPathInfo()))) {
+./vendor/symfony/http-foundation/RequestMatcher.php:        if (null !== $this->host && !preg_match('{'.$this->host.'}i', $request->getHost())) {
+./vendor/symfony/http-foundation/RequestMatcher.php:        if (null !== $this->port && 0 < $this->port && $request->getPort() !== $this->port) {
+./vendor/symfony/http-foundation/RequestMatcher.php:        if (IpUtils::checkIp($request->getClientIp(), $this->ips)) {
+./vendor/symfony/http-foundation/UrlHelper.php:            $path = $request->getRequestUri().$path;
+./vendor/symfony/http-foundation/UrlHelper.php:            $path = $request->getPathInfo().$path;
+./vendor/symfony/http-foundation/UrlHelper.php:            $prefix = $request->getPathInfo();
+./vendor/symfony/http-foundation/UrlHelper.php:            return $request->getUriForPath($prefix.$path);
+./vendor/symfony/http-foundation/UrlHelper.php:        return $request->getSchemeAndHttpHost().$path;
+./vendor/symfony/http-foundation/UrlHelper.php:        return $request->getRelativeUriForPath($path);
+./vendor/symfony/http-foundation/Response.php:                $format = $request->getRequestFormat(null);
+./vendor/symfony/http-foundation/Response.php:                if (null !== $format && $mimeType = $request->getMimeType($format)) {
+./vendor/symfony/http-foundation/Response.php:            if ($request->isMethod('HEAD')) {
+./vendor/symfony/http-foundation/Response.php:        if ('HTTP/1.0' != $request->server->get('SERVER_PROTOCOL')) {
+./vendor/symfony/http-foundation/Response.php:        if ($request->isSecure()) {
+./vendor/symfony/http-foundation/Response.php:        if (!$request->isMethodCacheable()) {
+./vendor/symfony/http-foundation/Response.php:        $modifiedSince = $request->headers->get('If-Modified-Since');
+./vendor/symfony/http-foundation/Response.php:        if ($etags = $request->getETags()) {
+./vendor/symfony/http-foundation/Response.php:        if (false !== stripos($this->headers->get('Content-Disposition') ?? '', 'attachment') && 1 == preg_match('/MSIE (.*?);/i', $request->server->get('HTTP_USER_AGENT') ?? '', $match) && true === $request->isSecure()) {
+./vendor/symfony/http-foundation/Request.php:            $request->request = new InputBag($_POST);
+./vendor/symfony/http-foundation/Request.php:        } elseif (0 === strpos($request->headers->get('CONTENT_TYPE'), 'application/x-www-form-urlencoded')
+./vendor/symfony/http-foundation/Request.php:            && \in_array(strtoupper($request->server->get('REQUEST_METHOD', 'GET')), ['PUT', 'DELETE', 'PATCH'])
+./vendor/symfony/http-foundation/Request.php:            parse_str($request->getContent(), $data);
+./vendor/symfony/http-foundation/Request.php:            $request->request = new InputBag($data);
+./vendor/symfony/http-foundation/Request.php:        $_POST = $this->request->all();
+./vendor/symfony/http-foundation/Request.php:        if ($this->request->has($key)) {
+./vendor/symfony/http-foundation/Request.php:            return $this->request->all()[$key];
+./vendor/symfony/http-foundation/Request.php:            $method = $this->request->get('_method', $this->query->get('_method', 'POST'));
+./vendor/symfony/http-foundation/ExpressionRequestMatcher.php:            'method' => $request->getMethod(),
+./vendor/symfony/http-foundation/ExpressionRequestMatcher.php:            'path' => rawurldecode($request->getPathInfo()),
+./vendor/symfony/http-foundation/ExpressionRequestMatcher.php:            'host' => $request->getHost(),
+./vendor/symfony/http-foundation/ExpressionRequestMatcher.php:            'ip' => $request->getClientIp(),
+./vendor/symfony/http-foundation/ExpressionRequestMatcher.php:            'attributes' => $request->attributes->all(),
+./vendor/symfony/http-foundation/BinaryFileResponse.php:        if ('HTTP/1.0' !== $request->server->get('SERVER_PROTOCOL')) {
+./vendor/symfony/http-foundation/BinaryFileResponse.php:            $this->headers->set('Accept-Ranges', $request->isMethodSafe() ? 'bytes' : 'none');
+./vendor/symfony/http-foundation/BinaryFileResponse.php:        if (self::$trustXSendfileTypeHeader && $request->headers->has('X-Sendfile-Type')) {
+./vendor/symfony/http-foundation/BinaryFileResponse.php:            $type = $request->headers->get('X-Sendfile-Type');
+./vendor/symfony/http-foundation/BinaryFileResponse.php:                $parts = HeaderUtils::split($request->headers->get('X-Accel-Mapping', ''), ',=');
+./vendor/symfony/http-foundation/BinaryFileResponse.php:        } elseif ($request->headers->has('Range') && $request->isMethod('GET')) {
+./vendor/symfony/http-foundation/BinaryFileResponse.php:            if (!$request->headers->has('If-Range') || $this->hasValidIfRangeHeader($request->headers->get('If-Range'))) {
+./vendor/symfony/http-foundation/BinaryFileResponse.php:                $range = $request->headers->get('Range');
+./vendor/symfony/http-foundation/Test/Constraint/RequestAttributeValueSame.php:        return $this->value === $request->attributes->get($this->name);
+./vendor/facade/ignition/src/Context/LaravelRequestContext.php:            $user = $this->request->user();
+./vendor/facade/ignition/src/Context/LaravelRequestContext.php:        $route = $this->request->route();
+./vendor/facade/ignition/src/Context/LaravelRequestContext.php:            return collect(optional($this->request->route())->parameters ?? [])->toArray();
+./vendor/facade/ignition/src/Http/Controllers/ScriptController.php:                Ignition::scripts()[$request->script]
+./vendor/facade/ignition/src/Http/Controllers/ExecuteSolutionController.php:        $solution = $request->getRunnableSolution();
+./vendor/facade/ignition/src/Http/Controllers/ExecuteSolutionController.php:        $solution->run($request->get('parameters', []));
+./vendor/facade/ignition/src/Http/Controllers/ShareReportController.php:            return $shareReportAction->handle(json_decode($request->get('report'), true), $request->get('tabs'), $request->get('lineSelection'));
+./vendor/facade/ignition/src/Http/Controllers/StyleController.php:            file_get_contents(Ignition::styles()[$request->style]),
+./vendor/facade/flare-client-php/src/Context/RequestContext.php:            'url' => $this->request->getUri(),
+./vendor/facade/flare-client-php/src/Context/RequestContext.php:            'ip' => $this->request->getClientIp(),
+./vendor/facade/flare-client-php/src/Context/RequestContext.php:            'method' => $this->request->getMethod(),
+./vendor/facade/flare-client-php/src/Context/RequestContext.php:            'useragent' => $this->request->headers->get('User-Agent'),
+./vendor/facade/flare-client-php/src/Context/RequestContext.php:        if (is_null($this->request->files)) {
+./vendor/facade/flare-client-php/src/Context/RequestContext.php:        return $this->mapFiles($this->request->files->all());
+./vendor/facade/flare-client-php/src/Context/RequestContext.php:            $session = $this->request->getSession();
+./vendor/facade/flare-client-php/src/Context/RequestContext.php:        return $this->request->cookies->all();
+./vendor/facade/flare-client-php/src/Context/RequestContext.php:        return $this->request->headers->all();
+./vendor/facade/flare-client-php/src/Context/RequestContext.php:            'queryString' => $this->request->query->all(),
+./vendor/facade/flare-client-php/src/Context/RequestContext.php:            'body' => $this->request->request->all(),
+./vendor/fruitcake/laravel-cors/src/HandleCors.php:        if ($request->getMethod() === 'OPTIONS') {
+./vendor/fruitcake/laravel-cors/src/HandleCors.php:        $paths = $this->getPathsByHost($request->getHost());
+./vendor/fruitcake/laravel-cors/src/HandleCors.php:            if ($request->fullUrlIs($path) || $request->is($path)) {
+./vendor/guzzlehttp/psr7/src/Message.php:        return $matches[1] === '/' ? $request : $request->withRequestTarget($parts[1]);
+./vendor/guzzlehttp/psr7/src/Utils.php:        $headers = $request->getHeaders();
+./vendor/guzzlehttp/psr7/src/Utils.php:            $uri = $request->getUri();
+./vendor/guzzlehttp/psr7/src/Utils.php:                isset($changes['method']) ? $changes['method'] : $request->getMethod(),
+./vendor/guzzlehttp/psr7/src/Utils.php:                isset($changes['body']) ? $changes['body'] : $request->getBody(),
+./vendor/guzzlehttp/psr7/src/Utils.php:                    : $request->getProtocolVersion(),
+./vendor/guzzlehttp/psr7/src/Utils.php:                $request->getServerParams()
+./vendor/guzzlehttp/psr7/src/Utils.php:            ->withParsedBody($request->getParsedBody())
+./vendor/guzzlehttp/psr7/src/Utils.php:            ->withQueryParams($request->getQueryParams())
+./vendor/guzzlehttp/psr7/src/Utils.php:            ->withCookieParams($request->getCookieParams())
+./vendor/guzzlehttp/psr7/src/Utils.php:            ->withUploadedFiles($request->getUploadedFiles());
+./vendor/guzzlehttp/psr7/src/Utils.php:            foreach ($request->getAttributes() as $key => $value) {
+./vendor/guzzlehttp/psr7/src/Utils.php:            isset($changes['method']) ? $changes['method'] : $request->getMethod(),
+./vendor/guzzlehttp/psr7/src/Utils.php:            isset($changes['body']) ? $changes['body'] : $request->getBody(),
+./vendor/guzzlehttp/psr7/src/Utils.php:                : $request->getProtocolVersion()
+./vendor/guzzlehttp/guzzle/UPGRADING.md:    return $request->withHeader('X-Foo', 'Bar');
+./vendor/guzzlehttp/guzzle/UPGRADING.md:This version added the [`form_params`](http://guzzle.readthedocs.org/en/latest/request-options.html#form_params)
+./vendor/guzzlehttp/guzzle/UPGRADING.md:[`multipart`](http://guzzle.readthedocs.org/en/latest/request-options.html#multipart)
+./vendor/guzzlehttp/guzzle/UPGRADING.md:$request->getEventDispatcher()->addSubscriber($mock);
+./vendor/guzzlehttp/guzzle/UPGRADING.md:$request->getEventDispatcher()->removeSubscriber($mock);
+./vendor/guzzlehttp/guzzle/UPGRADING.md:$request->getEmitter()->attach($mock);
+./vendor/guzzlehttp/guzzle/UPGRADING.md:$request->getEmitter()->detach($mock);
+./vendor/guzzlehttp/guzzle/UPGRADING.md:$request->getEventDispatcher()->addListener('foo', function (Event $event) { /* ... */ } );
+./vendor/guzzlehttp/guzzle/UPGRADING.md:$request->getEmitter()->on('foo', function (Event $event, $name) { /* ... */ } );
+./vendor/guzzlehttp/guzzle/UPGRADING.md:$response = $request->send();
+./vendor/guzzlehttp/guzzle/UPGRADING.md:$request->getBody()->setField('foo', 'bar');
+./vendor/guzzlehttp/guzzle/UPGRADING.md:$request->getBody()->addFile(new PostFile('file_key', fopen('/path/to/content', 'r')));
+./vendor/guzzlehttp/guzzle/UPGRADING.md:- Marked `Guzzle\Http\Message\Request::isResponseBodyRepeatable()` as deprecated. Use `$request->getResponseBody()->isRepeatable()` instead.
+./vendor/guzzlehttp/guzzle/UPGRADING.md:echo $request->getUrl();
+./vendor/guzzlehttp/guzzle/UPGRADING.md:echo $request->getUrl();
+./vendor/guzzlehttp/guzzle/src/TransferStats.php:        return $this->request->getUri();
+./vendor/guzzlehttp/guzzle/src/RedirectMiddleware.php:            $requestMethod = $request->getMethod();
+./vendor/guzzlehttp/guzzle/src/RedirectMiddleware.php:            && $modify['uri']->getScheme() === $request->getUri()->getScheme()
+./vendor/guzzlehttp/guzzle/src/RedirectMiddleware.php:            $uri = $request->getUri()->withUserInfo('');
+./vendor/guzzlehttp/guzzle/src/RedirectMiddleware.php:        if ($request->getUri()->getHost() !== $modify['uri']->getHost()) {
+./vendor/guzzlehttp/guzzle/src/RedirectMiddleware.php:            $request->getUri(),
+./vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php:        if ($request->getBody()->getSize() === 0) {
+./vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php:        if (!$request->hasHeader('Content-Type')) {
+./vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php:            if ($uri = $request->getBody()->getMetadata('uri')) {
+./vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php:        if (!$request->hasHeader('Content-Length')
+./vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php:            && !$request->hasHeader('Transfer-Encoding')
+./vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php:            $size = $request->getBody()->getSize();
+./vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php:        if ($request->hasHeader('Expect')) {
+./vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php:        if ($expect === false || $request->getProtocolVersion() < 1.1) {
+./vendor/guzzlehttp/guzzle/src/PrepareBodyMiddleware.php:        $body = $request->getBody();
+./vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:        $uri = $request->getUri();
+./vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:            $request->getMethod(),
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:            $request = $request->withoutHeader('Expect');
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:            if (0 === $request->getBody()->getSize()) {
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:                $request = $request->withHeader('Content-Length', '0');
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:        if (\strcasecmp('HEAD', $request->getMethod())) {
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:        if ($request->getProtocolVersion() == '1.1'
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:            && !$request->hasHeader('Connection')
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:            $request = $request->withHeader('Connection', 'close');
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:        $uri = $request->getUri();
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:        foreach ($request->getHeaders() as $name => $value) {
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:                'method'           => $request->getMethod(),
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:                'protocol_version' => $request->getProtocolVersion(),
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:        $body = (string) $request->getBody();
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:            if (!$request->hasHeader('Content-Type')) {
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:            $scheme = $request->getUri()->getScheme();
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:                if (!isset($value['no']) || !Utils::isHostInNoProxy($request->getUri()->getHost(), $value['no'])) {
+./vendor/guzzlehttp/guzzle/src/Handler/StreamHandler.php:        $ident = $request->getMethod() . ' ' . $request->getUri()->withFragment('');
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:        $uriString = (string) $easy->request->getUri();
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:            '_headers'              => $easy->request->getHeaders(),
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:            \CURLOPT_CUSTOMREQUEST  => $easy->request->getMethod(),
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:            \CURLOPT_URL            => (string) $easy->request->getUri()->withFragment(''),
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:        $version = $easy->request->getProtocolVersion();
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:        $body = $easy->request->getBody();
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:        $method = $easy->request->getMethod();
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:            if (!$easy->request->hasHeader('Content-Length')) {
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:        $size = $request->hasHeader('Content-Length')
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:            ? (int) $request->getHeaderLine('Content-Length')
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:            $conf[\CURLOPT_POSTFIELDS] = (string) $request->getBody();
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:            $body = $request->getBody();
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:        if (!$request->hasHeader('Expect')) {
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:        if (!$request->hasHeader('Content-Type')) {
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:        if (!$easy->request->hasHeader('Accept')) {
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:            $accept = $easy->request->getHeaderLine('Accept-Encoding');
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:                $scheme = $easy->request->getUri()->getScheme();
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:                    $host = $easy->request->getUri()->getHost();
+./vendor/guzzlehttp/guzzle/src/Handler/CurlFactory.php:            $body = $easy->request->getBody();
+./vendor/guzzlehttp/guzzle/src/MessageFormatter.php:                        $result = \trim($request->getMethod()
+./vendor/guzzlehttp/guzzle/src/MessageFormatter.php:                                . ' ' . $request->getRequestTarget())
+./vendor/guzzlehttp/guzzle/src/MessageFormatter.php:                            . ' HTTP/' . $request->getProtocolVersion() . "\r\n"
+./vendor/guzzlehttp/guzzle/src/MessageFormatter.php:                        $result = $request->getBody()->__toString();
+./vendor/guzzlehttp/guzzle/src/MessageFormatter.php:                        $result = $request->getMethod();
+./vendor/guzzlehttp/guzzle/src/MessageFormatter.php:                        $result = $request->getProtocolVersion();
+./vendor/guzzlehttp/guzzle/src/MessageFormatter.php:                        $result = $request->getUri();
+./vendor/guzzlehttp/guzzle/src/MessageFormatter.php:                        $result = $request->getRequestTarget();
+./vendor/guzzlehttp/guzzle/src/MessageFormatter.php:                        $result = $request->getProtocolVersion();
+./vendor/guzzlehttp/guzzle/src/MessageFormatter.php:                        $result = $request->getHeaderLine('Host');
+./vendor/guzzlehttp/guzzle/src/MessageFormatter.php:                            $result = $request->getHeaderLine(\substr($matches[1], 11));
+./vendor/guzzlehttp/guzzle/src/Client.php:            $request->withUri($this->buildUri($request->getUri(), $options), $request->hasHeader('Host')),
+./vendor/guzzlehttp/guzzle/src/Client.php:        if ($request->getBody() instanceof Psr7\MultipartStream) {
+./vendor/guzzlehttp/guzzle/src/Client.php:                . $request->getBody()->getBoundary();
+./vendor/guzzlehttp/guzzle/src/Client.php:                if (!$request->hasHeader($k)) {
+./vendor/guzzlehttp/guzzle/src/RequestOptions.php: * @link http://docs.guzzlephp.org/en/v6/request-options.html
+./vendor/guzzlehttp/guzzle/src/Cookie/SetCookie.php:     * A request-path path-matches a given cookie-path if at least one of
+./vendor/guzzlehttp/guzzle/src/Cookie/SetCookie.php:     * - The cookie-path and the request-path are identical.
+./vendor/guzzlehttp/guzzle/src/Cookie/SetCookie.php:     * - The cookie-path is a prefix of the request-path, and the last
+./vendor/guzzlehttp/guzzle/src/Cookie/SetCookie.php:     * - The cookie-path is a prefix of the request-path, and the first
+./vendor/guzzlehttp/guzzle/src/Cookie/SetCookie.php:     *   character of the request-path that is not included in the cookie-
+./vendor/guzzlehttp/guzzle/src/Cookie/CookieJar.php:                    $sc->setDomain($request->getUri()->getHost());
+./vendor/guzzlehttp/guzzle/src/Cookie/CookieJar.php:        $uriPath = $request->getUri()->getPath();
+./vendor/guzzlehttp/guzzle/src/Cookie/CookieJar.php:        $uri = $request->getUri();
+./vendor/guzzlehttp/guzzle/src/Cookie/CookieJar.php:            ? $request->withHeader('Cookie', \implode('; ', $values))
+./vendor/guzzlehttp/guzzle/CHANGELOG.md:      `$request->getResponseBody()->isRepeatable()` instead.
+./vendor/asm89/stack-cors/src/CorsService.php:        return $request->headers->has('Origin');
+./vendor/asm89/stack-cors/src/CorsService.php:        return $request->getMethod() === 'OPTIONS' && $request->headers->has('Access-Control-Request-Method');
+./vendor/asm89/stack-cors/src/CorsService.php:        if (!$request->headers->has('Origin')) {
+./vendor/asm89/stack-cors/src/CorsService.php:        $origin = $request->headers->get('Origin');
+./vendor/asm89/stack-cors/src/CorsService.php:            if ($request->headers->has('Origin') && $this->isOriginAllowed($request)) {
+./vendor/asm89/stack-cors/src/CorsService.php:                $response->headers->set('Access-Control-Allow-Origin', $request->headers->get('Origin'));
+./vendor/asm89/stack-cors/src/CorsService.php:            $allowMethods = strtoupper($request->headers->get('Access-Control-Request-Method'));
+./vendor/asm89/stack-cors/src/CorsService.php:            $allowHeaders = $request->headers->get('Access-Control-Request-Headers');
+./vendor/asm89/stack-cors/src/CorsService.php:        return $request->headers->get('Origin') === $request->getSchemeAndHttpHost();
+./vendor/asm89/stack-cors/src/Cors.php:        if ($request->getMethod() === 'OPTIONS') {
+./vendor/laravel/ui/auth-backend/ThrottlesLogins.php:        return Str::lower($request->input($this->username())).'|'.$request->ip();
+./vendor/laravel/ui/auth-backend/VerifiesEmails.php:        return $request->user()->hasVerifiedEmail()
+./vendor/laravel/ui/auth-backend/VerifiesEmails.php:        if (! hash_equals((string) $request->route('id'), (string) $request->user()->getKey())) {
+./vendor/laravel/ui/auth-backend/VerifiesEmails.php:        if (! hash_equals((string) $request->route('hash'), sha1($request->user()->getEmailForVerification()))) {
+./vendor/laravel/ui/auth-backend/VerifiesEmails.php:        if ($request->user()->hasVerifiedEmail()) {
+./vendor/laravel/ui/auth-backend/VerifiesEmails.php:            return $request->wantsJson()
+./vendor/laravel/ui/auth-backend/VerifiesEmails.php:        if ($request->user()->markEmailAsVerified()) {
+./vendor/laravel/ui/auth-backend/VerifiesEmails.php:            event(new Verified($request->user()));
+./vendor/laravel/ui/auth-backend/VerifiesEmails.php:        return $request->wantsJson()
+./vendor/laravel/ui/auth-backend/VerifiesEmails.php:        if ($request->user()->hasVerifiedEmail()) {
+./vendor/laravel/ui/auth-backend/VerifiesEmails.php:            return $request->wantsJson()
+./vendor/laravel/ui/auth-backend/VerifiesEmails.php:        $request->user()->sendEmailVerificationNotification();
+./vendor/laravel/ui/auth-backend/VerifiesEmails.php:        return $request->wantsJson()
+./vendor/laravel/ui/auth-backend/ResetsPasswords.php:            ['token' => $token, 'email' => $request->email]
+./vendor/laravel/ui/auth-backend/ResetsPasswords.php:        $request->validate($this->rules(), $this->validationErrorMessages());
+./vendor/laravel/ui/auth-backend/ResetsPasswords.php:        return $request->only(
+./vendor/laravel/ui/auth-backend/ResetsPasswords.php:        if ($request->wantsJson()) {
+./vendor/laravel/ui/auth-backend/ResetsPasswords.php:        if ($request->wantsJson()) {
+./vendor/laravel/ui/auth-backend/ResetsPasswords.php:                    ->withInput($request->only('email'))
+./vendor/laravel/ui/auth-backend/AuthenticatesUsers.php:        $request->validate([
+./vendor/laravel/ui/auth-backend/AuthenticatesUsers.php:            $this->credentials($request), $request->filled('remember')
+./vendor/laravel/ui/auth-backend/AuthenticatesUsers.php:        return $request->only($this->username(), 'password');
+./vendor/laravel/ui/auth-backend/AuthenticatesUsers.php:        $request->session()->regenerate();
+./vendor/laravel/ui/auth-backend/AuthenticatesUsers.php:        return $request->wantsJson()
+./vendor/laravel/ui/auth-backend/AuthenticatesUsers.php:        $request->session()->invalidate();
+./vendor/laravel/ui/auth-backend/AuthenticatesUsers.php:        $request->session()->regenerateToken();
+./vendor/laravel/ui/auth-backend/AuthenticatesUsers.php:        return $request->wantsJson()
+./vendor/laravel/ui/auth-backend/RegistersUsers.php:        $this->validator($request->all())->validate();
+./vendor/laravel/ui/auth-backend/RegistersUsers.php:        event(new Registered($user = $this->create($request->all())));
+./vendor/laravel/ui/auth-backend/RegistersUsers.php:        return $request->wantsJson()
+./vendor/laravel/ui/auth-backend/ConfirmsPasswords.php:        $request->validate($this->rules(), $this->validationErrorMessages());
+./vendor/laravel/ui/auth-backend/ConfirmsPasswords.php:        return $request->wantsJson()
+./vendor/laravel/ui/auth-backend/ConfirmsPasswords.php:        $request->session()->put('auth.password_confirmed_at', time());
+./vendor/laravel/ui/auth-backend/SendsPasswordResetEmails.php:        $request->validate(['email' => 'required|email']);
+./vendor/laravel/ui/auth-backend/SendsPasswordResetEmails.php:        return $request->only('email');
+./vendor/laravel/ui/auth-backend/SendsPasswordResetEmails.php:        return $request->wantsJson()
+./vendor/laravel/ui/auth-backend/SendsPasswordResetEmails.php:        if ($request->wantsJson()) {
+./vendor/laravel/ui/auth-backend/SendsPasswordResetEmails.php:                ->withInput($request->only('email'))
+./vendor/laravel/framework/src/Illuminate/Broadcasting/Broadcasters/RedisBroadcaster.php:            str_replace($this->prefix, '', $request->channel_name)
+./vendor/laravel/framework/src/Illuminate/Broadcasting/Broadcasters/RedisBroadcaster.php:        if ($this->isGuardedChannel($request->channel_name) &&
+./vendor/laravel/framework/src/Illuminate/Broadcasting/Broadcasters/RedisBroadcaster.php:        $channelName = $this->normalizeChannelName($request->channel_name);
+./vendor/laravel/framework/src/Illuminate/Broadcasting/Broadcasters/Broadcaster.php:            return $request->user();
+./vendor/laravel/framework/src/Illuminate/Broadcasting/Broadcasters/Broadcaster.php:            if ($user = $request->user($guard)) {
+./vendor/laravel/framework/src/Illuminate/Broadcasting/Broadcasters/PusherBroadcaster.php:        $channelName = $this->normalizeChannelName($request->channel_name);
+./vendor/laravel/framework/src/Illuminate/Broadcasting/Broadcasters/PusherBroadcaster.php:        if ($this->isGuardedChannel($request->channel_name) &&
+./vendor/laravel/framework/src/Illuminate/Broadcasting/Broadcasters/PusherBroadcaster.php:        if (Str::startsWith($request->channel_name, 'private')) {
+./vendor/laravel/framework/src/Illuminate/Broadcasting/Broadcasters/PusherBroadcaster.php:                $request, $this->pusher->socket_auth($request->channel_name, $request->socket_id)
+./vendor/laravel/framework/src/Illuminate/Broadcasting/Broadcasters/PusherBroadcaster.php:        $channelName = $this->normalizeChannelName($request->channel_name);
+./vendor/laravel/framework/src/Illuminate/Broadcasting/Broadcasters/PusherBroadcaster.php:                $request->channel_name, $request->socket_id,
+./vendor/laravel/framework/src/Illuminate/Broadcasting/Broadcasters/PusherBroadcaster.php:        if (! $request->input('callback', false)) {
+./vendor/laravel/framework/src/Illuminate/Broadcasting/Broadcasters/PusherBroadcaster.php:                    ->withCallback($request->callback);
+./vendor/laravel/framework/src/Illuminate/Broadcasting/BroadcastManager.php:        return $request->header('X-Socket-ID');
+./vendor/laravel/framework/src/Illuminate/Broadcasting/BroadcastController.php:        if ($request->hasSession()) {
+./vendor/laravel/framework/src/Illuminate/Broadcasting/BroadcastController.php:            $request->session()->reflash();
+./vendor/laravel/framework/src/Illuminate/Routing/Router.php:        $request->setRouteResolver(function () use ($route) {
+./vendor/laravel/framework/src/Illuminate/Routing/Middleware/ValidateSignature.php:        if ($request->hasValidSignature()) {
+./vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php:        $this->router->substituteBindings($route = $request->route());
+./vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php:            $maxAttempts = explode('|', $maxAttempts, 2)[$request->user() ? 1 : 0];
+./vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php:        if (! is_numeric($maxAttempts) && $request->user()) {
+./vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php:            $maxAttempts = $request->user()->{$maxAttempts};
+./vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php:        if ($user = $request->user()) {
+./vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php:        if ($route = $request->route()) {
+./vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php:            return sha1($route->getDomain().'|'.$request->ip());
+./vendor/laravel/framework/src/Illuminate/Routing/AbstractRouteCollection.php:        $methods = array_diff(Router::$verbs, [$request->getMethod()]);
+./vendor/laravel/framework/src/Illuminate/Routing/AbstractRouteCollection.php:        if ($request->method() === 'OPTIONS') {
+./vendor/laravel/framework/src/Illuminate/Routing/AbstractRouteCollection.php:            return (new Route('OPTIONS', $request->path(), function () use ($methods) {
+./vendor/laravel/framework/src/Illuminate/Routing/AbstractRouteCollection.php:        $this->methodNotAllowed($methods, $request->method());
+./vendor/laravel/framework/src/Illuminate/Routing/RouteParameterBinder.php:        $path = '/'.ltrim($request->decodedPath(), '/');
+./vendor/laravel/framework/src/Illuminate/Routing/RouteParameterBinder.php:        preg_match($this->route->compiled->getHostRegex(), $request->getHost(), $matches);
+./vendor/laravel/framework/src/Illuminate/Routing/RouteUrlGenerator.php:            if ($base = $this->request->getBaseUrl()) {
+./vendor/laravel/framework/src/Illuminate/Routing/RouteUrlGenerator.php:        $secure = $this->request->isSecure();
+./vendor/laravel/framework/src/Illuminate/Routing/RouteUrlGenerator.php:        $port = (int) $this->request->getPort();
+./vendor/laravel/framework/src/Illuminate/Routing/Redirector.php:        $intended = $request->method() === 'GET' && $request->route() && ! $request->expectsJson()
+./vendor/laravel/framework/src/Illuminate/Routing/RedirectController.php:        $parameters = collect($request->route()->parameters());
+./vendor/laravel/framework/src/Illuminate/Routing/CompiledRouteCollection.php:        $parts = explode('?', $request->server->get('REQUEST_URI'), 2);
+./vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:        return $this->request->fullUrl();
+./vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:        return $this->to($this->request->getPathInfo());
+./vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:        $referrer = $this->request->headers->get('referer');
+./vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:            $this->cachedScheme = $this->forceScheme ?: $this->request->getScheme().'://';
+./vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:        $url = $absolute ? $request->url() : '/'.$request->path();
+./vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:            Arr::except($request->query(), 'signature')
+./vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:        return hash_equals($signature, (string) $request->query('signature', ''));
+./vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:        $expires = $request->query('expires');
+./vendor/laravel/framework/src/Illuminate/Routing/UrlGenerator.php:                $this->cachedRoot = $this->forcedRoot ?: $this->request->root();
+./vendor/laravel/framework/src/Illuminate/Routing/RouteCollection.php:        $routes = $this->get($request->getMethod());
+./vendor/laravel/framework/src/Illuminate/Routing/Matching/MethodValidator.php:        return in_array($request->getMethod(), $route->methods());
+./vendor/laravel/framework/src/Illuminate/Routing/Matching/SchemeValidator.php:            return ! $request->secure();
+./vendor/laravel/framework/src/Illuminate/Routing/Matching/SchemeValidator.php:            return $request->secure();
+./vendor/laravel/framework/src/Illuminate/Routing/Matching/HostValidator.php:        return preg_match($hostRegex, $request->getHost());
+./vendor/laravel/framework/src/Illuminate/Routing/Matching/UriValidator.php:        $path = rtrim($request->getPathInfo(), '/') ?: '/';
+./vendor/laravel/framework/src/Illuminate/Foundation/Validation/ValidatesRequests.php:            $validator = $this->getValidationFactory()->make($request->all(), $validator);
+./vendor/laravel/framework/src/Illuminate/Foundation/Validation/ValidatesRequests.php:            $request->all(), $rules, $messages, $customAttributes
+./vendor/laravel/framework/src/Illuminate/Foundation/Providers/FormRequestServiceProvider.php:            $request->setContainer($app)->setRedirector($app->make(Redirector::class));
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php:        return $request->expectsJson()
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php:        return $request->expectsJson()
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php:        return $request->expectsJson()
+./vendor/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php:                    ->withInput(Arr::except($request->input(), $this->dontFlash))
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php:        return in_array($request->method(), ['HEAD', 'GET', 'OPTIONS']);
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php:            if ($request->fullUrlIs($except) || $request->is($except)) {
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php:        return is_string($request->session()->token()) &&
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php:               hash_equals($request->session()->token(), $token);
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php:        $token = $request->input('_token') ?: $request->header('X-CSRF-TOKEN');
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php:        if (! $token && $header = $request->header('X-XSRF-TOKEN')) {
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/VerifyCsrfToken.php:                'XSRF-TOKEN', $request->session()->token(), $this->availableAt(60 * $config['lifetime']),
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php:            if (isset($data['allowed']) && IpUtils::checkIp($request->ip(), (array) $data['allowed'])) {
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/CheckForMaintenanceMode.php:            if ($request->fullUrlIs($except) || $request->is($except)) {
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php:        if ($max > 0 && $request->server('CONTENT_LENGTH') > $max) {
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php:        $this->cleanParameterBag($request->query);
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php:        if ($request->isJson()) {
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php:            $this->cleanParameterBag($request->json());
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php:        } elseif ($request->request !== $request->query) {
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php:            $this->cleanParameterBag($request->request);
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php:            $request->enableHttpMethodParameterOverride();
+./vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php:        if ($route = $request->route()) {
+./vendor/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithExceptionHandling.php:                        "{$request->method()} {$request->url()}", null, $e->getCode()
+./vendor/laravel/framework/src/Illuminate/Http/RedirectResponse.php:            ! is_null($input) ? $input : $this->request->input()
+./vendor/laravel/framework/src/Illuminate/Http/RedirectResponse.php:        return $this->withInput($this->request->only(func_get_args()));
+./vendor/laravel/framework/src/Illuminate/Http/RedirectResponse.php:        return $this->withInput($this->request->except(func_get_args()));
+./vendor/laravel/framework/src/Illuminate/Http/Middleware/SetCacheHeaders.php:        if (! $request->isMethodCacheable() || ! $response->getContent()) {
+./vendor/laravel/framework/src/Illuminate/Http/Client/Factory.php:            if (! Str::is(Str::start($url, '*'), $request->url())) {
+./vendor/laravel/framework/src/Illuminate/Http/Client/Factory.php:            $request->stub($this->stubCallbacks);
+./vendor/laravel/framework/src/Illuminate/Http/Client/Request.php:        return $this->request->getMethod();
+./vendor/laravel/framework/src/Illuminate/Http/Client/Request.php:        return (string) $this->request->getUri();
+./vendor/laravel/framework/src/Illuminate/Http/Client/Request.php:            return ! empty($this->request->getHeaders()[$key]);
+./vendor/laravel/framework/src/Illuminate/Http/Client/Request.php:        return collect($this->request->getHeaders())->mapWithKeys(function ($values, $header) {
+./vendor/laravel/framework/src/Illuminate/Http/Client/Request.php:        return (string) $this->request->getBody();
+./vendor/laravel/framework/src/Illuminate/Http/Request.php:        $request->initialize(
+./vendor/laravel/framework/src/Illuminate/Http/Request.php:            $from->request->all(),
+./vendor/laravel/framework/src/Illuminate/Http/Request.php:        $request->headers->replace($from->headers->all());
+./vendor/laravel/framework/src/Illuminate/Http/Request.php:        $request->setJson($from->json());
+./vendor/laravel/framework/src/Illuminate/Http/Request.php:            $request->setLaravelSession($session);
+./vendor/laravel/framework/src/Illuminate/Http/Request.php:        $request->setUserResolver($from->getUserResolver());
+./vendor/laravel/framework/src/Illuminate/Http/Request.php:        $request->setRouteResolver($from->getRouteResolver());
+./vendor/laravel/framework/src/Illuminate/Http/Request.php:            $request->query->all(), $request->request->all(), $request->attributes->all(),
+./vendor/laravel/framework/src/Illuminate/Http/Request.php:            $request->cookies->all(), $request->files->all(), $request->server->all()
+./vendor/laravel/framework/src/Illuminate/Http/Request.php:        $newRequest->headers->replace($request->headers->all());
+./vendor/laravel/framework/src/Illuminate/Http/Request.php:        $newRequest->content = $request->content;
+./vendor/laravel/framework/src/Illuminate/Http/Resources/Json/ResourceCollection.php:            $this->resource->appends($request->query());
+./vendor/laravel/framework/src/Illuminate/View/Middleware/ShareErrorsFromSession.php:            'errors', $request->session()->get('errors') ?: new ViewErrorBag
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php:            ($request->route() && $request->route()->locksFor())) {
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php:        $lockFor = $request->route() && $request->route()->locksFor()
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php:                        ? $request->route()->locksFor()
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php:                ! is_null($request->route()->waitsFor())
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php:                        ? $request->route()->waitsFor()
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php:        $request->setLaravelSession(
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php:            $session->setId($request->cookies->get($session->getName()));
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php:        if ($request->method() === 'GET' &&
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php:            $request->route() &&
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php:            ! $request->ajax() &&
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php:            ! $request->prefetch()) {
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/StartSession.php:            $session->setPreviousUrl($request->fullUrl());
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/AuthenticateSession.php:        if (! $request->hasSession() || ! $request->user()) {
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/AuthenticateSession.php:            $passwordHash = explode('|', $request->cookies->get($this->auth->getRecallerName()))[2] ?? null;
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/AuthenticateSession.php:            if (! $passwordHash || $passwordHash != $request->user()->getAuthPassword()) {
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/AuthenticateSession.php:        if (! $request->session()->has('password_hash')) {
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/AuthenticateSession.php:        if ($request->session()->get('password_hash') !== $request->user()->getAuthPassword()) {
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/AuthenticateSession.php:        if (! $request->user()) {
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/AuthenticateSession.php:        $request->session()->put([
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/AuthenticateSession.php:            'password_hash' => $request->user()->getAuthPassword(),
+./vendor/laravel/framework/src/Illuminate/Session/Middleware/AuthenticateSession.php:        $request->session()->flush();
+./vendor/laravel/framework/src/Illuminate/Session/CookieSessionHandler.php:        $value = $this->request->cookies->get($sessionId) ?: '';
+./vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php:        foreach ($request->cookies as $key => $cookie) {
+./vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php:                $request->cookies->set(
+./vendor/laravel/framework/src/Illuminate/Cookie/Middleware/EncryptCookies.php:                $request->cookies->set($key, null);
+./vendor/laravel/framework/src/Illuminate/Auth/Middleware/Authorize.php:            return $request->route($model, null) ?:
+./vendor/laravel/framework/src/Illuminate/Auth/Middleware/RequirePassword.php:            if ($request->expectsJson()) {
+./vendor/laravel/framework/src/Illuminate/Auth/Middleware/RequirePassword.php:        $confirmedAt = time() - $request->session()->get('auth.password_confirmed_at', 0);
+./vendor/laravel/framework/src/Illuminate/Auth/Middleware/EnsureEmailIsVerified.php:        if (! $request->user() ||
+./vendor/laravel/framework/src/Illuminate/Auth/Middleware/EnsureEmailIsVerified.php:            ($request->user() instanceof MustVerifyEmail &&
+./vendor/laravel/framework/src/Illuminate/Auth/Middleware/EnsureEmailIsVerified.php:            ! $request->user()->hasVerifiedEmail())) {
+./vendor/laravel/framework/src/Illuminate/Auth/Middleware/EnsureEmailIsVerified.php:            return $request->expectsJson()
+./vendor/laravel/framework/src/Illuminate/Auth/SessionGuard.php:        if ($recaller = $this->request->cookies->get($this->getRecallerName())) {
+./vendor/laravel/framework/src/Illuminate/Auth/SessionGuard.php:        if (! $request->getUser()) {
+./vendor/laravel/framework/src/Illuminate/Auth/SessionGuard.php:        return [$field => $request->getUser(), 'password' => $request->getPassword()];
+./vendor/laravel/framework/src/Illuminate/Auth/TokenGuard.php:        $token = $this->request->query($this->inputKey);
+./vendor/laravel/framework/src/Illuminate/Auth/TokenGuard.php:            $token = $this->request->input($this->inputKey);
+./vendor/laravel/framework/src/Illuminate/Auth/TokenGuard.php:            $token = $this->request->bearerToken();
+./vendor/laravel/framework/src/Illuminate/Auth/TokenGuard.php:            $token = $this->request->getPassword();
+./vendor/laravel/framework/src/Illuminate/Auth/AuthServiceProvider.php:            $request->setUserResolver(function ($guard = null) use ($app) {
+./vendor/twbs/bootstrap/package-lock.json:      "resolved": "https://registry.npmjs.org/cacheable-request/-/cacheable-request-2.1.4.tgz",
+./vendor/twbs/bootstrap/package-lock.json:        "xmlhttprequest-ssl": "~1.5.4",
+./vendor/twbs/bootstrap/package-lock.json:          "resolved": "https://registry.npmjs.org/cacheable-request/-/cacheable-request-6.1.0.tgz",
+./vendor/twbs/bootstrap/package-lock.json:      "resolved": "https://registry.npmjs.org/request/-/request-2.88.2.tgz",
+./vendor/twbs/bootstrap/package-lock.json:    "xmlhttprequest-ssl": {
+./vendor/twbs/bootstrap/package-lock.json:      "resolved": "https://registry.npmjs.org/xmlhttprequest-ssl/-/xmlhttprequest-ssl-1.5.5.tgz",
+./vendor/fideloper/proxy/src/TrustProxies.php:        $request->setTrustedProxies((array) $trustedIps, $this->getTrustedHeaderNames());
+./vendor/fideloper/proxy/src/TrustProxies.php:        $request->setTrustedProxies([$request->server->get('REMOTE_ADDR')], $this->getTrustedHeaderNames());
+./vendor/psr/http-message/src/RequestInterface.php:     * Retrieves the message's request-target either as it will appear (for
+./vendor/psr/http-message/src/RequestInterface.php:     * If no URI is available, and no request-target has been specifically
+./vendor/psr/http-message/src/RequestInterface.php:     * Return an instance with the specific request-target.
+./vendor/psr/http-message/src/RequestInterface.php:     * If the request needs a non-origin-form request-target — e.g., for
+./vendor/psr/http-message/src/RequestInterface.php:     * request-target, verbatim.
+./vendor/psr/http-message/src/RequestInterface.php:     *     request-target forms allowed in request messages)
+./app/Http/Middleware/Authenticate.php:        if (! $request->expectsJson()) {
+./app/Http/Controllers/ValidacionesController.php:        $val = Validator::make($request->all(),[
+./app/Http/Controllers/ValidacionesController.php:        if(!$request->fotoRechazo && /*!$request->actaRechazo &&*/ !$request->constanciaRechazo){
+./app/Http/Controllers/ValidacionesController.php:            $doc_rechazo = [$request->fotoRechazo, /*$request->actaRechazo,*/ $request->constanciaRechazo];
+./app/Http/Controllers/ValidacionesController.php:            $comentario = [$request->textoFotoRechazo, /*$request->textoActaRechazo,*/ $request->textoConstanciaRechazo];
+./app/Http/Controllers/AsistenteController_2026.php:        $val = Validator::make($request->all(),[
+./app/Http/Controllers/AsistenteController_2026.php:        $idConcursos= $request->input('concurso');
+./app/Http/Controllers/AsistenteController_2026.php:        $asistente->curp = $request->input('curp');
+./app/Http/Controllers/AsistenteController_2026.php:        $asistente->fecha_nacimiento = $request->input('fecha_nacimiento');
+./app/Http/Controllers/AsistenteController_2026.php:        $asistente->escuela_origen = $request->input('escuela_origen');
+./app/Http/Controllers/AsistenteController_2026.php:        $asistente->telefono = $request->input('telefono');
+./app/Http/Controllers/AsistenteController.php:        $val = Validator::make($request->all(),[
+./app/Http/Controllers/AsistenteController.php:        $idConcursos= $request->input('concurso');
+./app/Http/Controllers/AsistenteController.php:        $asistente->curp = $request->input('curp');
+./app/Http/Controllers/AsistenteController.php:        $asistente->fecha_nacimiento = $request->input('fecha_nacimiento');
+./app/Http/Controllers/AsistenteController.php:        $asistente->escuela_origen = $request->input('escuela_origen');
+./app/Http/Controllers/AsistenteController.php:        $asistente->telefono = $request->input('telefono');
+./app/Http/Controllers/DocumentosController.php:        $data = $request->image_croped;
+./app/Http/Controllers/DocumentosController.php:            /* 'foto_asistente'     => $request->file('foto_asistente')->getClientOriginalExtension(), */
+./app/Http/Controllers/DocumentosController.php:            //'acta_asistente'     => $request->file('acta_asistente')->getClientOriginalExtension(),
+./app/Http/Controllers/DocumentosController.php:            'constancia_escuela' => $request->file('constancia_escuela')->getClientOriginalExtension()
+./app/Http/Controllers/DocumentosController.php:        /* $documentos->foto_asistente = $request->file('foto_asistente')->storeAs('fotos-de-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['foto_asistente']); */
+./app/Http/Controllers/DocumentosController.php:        $request->hasFile('foto_asistente') ? $documentos->foto_asistente = "fotos-de-asistentes/$imageName" : '';
+./app/Http/Controllers/DocumentosController.php:        //$request->hasFile('acta_asistente') ? $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente'],'public') : '';
+./app/Http/Controllers/DocumentosController.php:        $request->hasFile('constancia_escuela') ? $documentos->constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['constancia_escuela'], 'public') : '';
+./app/Http/Controllers/DocumentosController.php:        // $nombreArchivo = $request->file('foto_asistente')->getClientOriginalName();
+./app/Http/Controllers/DocumentosController.php:        $val = Validator::make($request->all(),[
+./app/Http/Controllers/DocumentosController.php:        // dd($request->input('doc'));
+./app/Http/Controllers/DocumentosController.php:        if ($request->hasFile('foto_asistente')) {
+./app/Http/Controllers/DocumentosController.php:            $data = $request->image_croped;
+./app/Http/Controllers/DocumentosController.php:            //'foto_asistente'     => $request->file('foto_asistente')->getClientOriginalExtension(),
+./app/Http/Controllers/DocumentosController.php:            //'acta_asistente'     => $request->hasFile('acta_asistente') ? $request->file('acta_asistente')->getClientOriginalExtension() : '',
+./app/Http/Controllers/DocumentosController.php:            'constancia_escuela' => $request->hasFile('constancia_escuela') ? $request->file('constancia_escuela')->getClientOriginalExtension() : ''
+./app/Http/Controllers/DocumentosController.php:        //$documentos->foto_asistente = $request->file('foto_asistente')->storeAs('fotos-de-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['foto_asistente']);
+./app/Http/Controllers/DocumentosController.php:        $request->hasFile('foto_asistente') ? $documentos->foto_asistente = "fotos-de-asistentes/$imageName" : '';
+./app/Http/Controllers/DocumentosController.php: //       $request->hasFile('acta_asistente') ? $documentos->acta_asistente = $request->file('acta_asistente')->storeAs('actas-asistentes',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['acta_asistente'],'public') : '';
+./app/Http/Controllers/DocumentosController.php:        $request->hasFile('constancia_escuela') ? $documentos->constancia_escuela = $request->file('constancia_escuela')->storeAs('constancias-escuelas',$asistente->curp.'_'.$fecha_actual->format('d_M_Y_h').'.'.$extensiones['constancia_escuela'],'public') : '';
+./app/Http/Controllers/DocumentosController.php:        // dd($request->all());
+./app/Http/Controllers/DocumentosController.php:        if ($request->input('concurso') !=null) {
+./app/Http/Controllers/DocumentosController.php:            $idConcursos= $request->input('concurso');
+./app/Http/Controllers/Auth/ResetPasswordController.php:        $val = Validator::make($request->all(),[
+./app/Http/Controllers/Auth/ResetPasswordController.php:        $user = Asistente::where('correo_electronico', $request->correo_electronico)->where('token', $request->token)->first();
+./app/Http/Controllers/Auth/ResetPasswordController.php:        $user->contrasena = Hash::make($request->contrasena);
+./app/Http/Controllers/Auth/LoginRevisorController.php:        //$credentials = $request->only('correo', 'contrasena');
+./app/Http/Controllers/Auth/LoginRevisorController.php:        $val = Validator::make($request->all(),[
+./app/Http/Controllers/Auth/LoginRevisorController.php:            if (Auth::guard('revisor')->attempt(['correo' => $request->get('correo'), 'password' => $request->get('contrasena')])) {
+./app/Http/Controllers/Auth/LoginRevisorController.php: /*        if (Auth::guard('revisor')->attempt(['correo' => $request->get('correo'), 'password' => $request->get('contrasena')])) {
+./app/Http/Controllers/Auth/ForgotPasswordController.php:        $val = Validator::make($request->all(),[
+./app/Http/Controllers/Auth/ForgotPasswordController.php:        $registro = Asistente::where('correo_electronico', $request->correo_electronico)->first();
+./app/Http/Controllers/Auth/LoginController.php:        //dd($request->all());
+./app/Http/Controllers/Auth/LoginController.php:        $val = Validator::make($request->all(),[
+./app/Http/Controllers/Auth/LoginController.php:            if (Auth::attempt(['correo_electronico' => $request->get('correo_electronico'), 'password' => $request->get('contrasena')])) {
+./app/Http/Controllers/Auth/LoginController.php:/*         if (Auth::attempt(['correo_electronico' => $request->get('correo_electronico'), 'password' => $request->get('contrasena')])) {
+./public/web.config:    Debug Help: https://docs.microsoft.com/en-us/iis/extensions/url-rewrite-module/using-failed-request-tracing-to-trace-rewrite-rules
