@@ -71,13 +71,28 @@ class RevisoresSeeder extends Seeder
         ]);
         */
 
-        /*Habilitar: Segunda ronda 2026*/
-    DB::table('revisores')->insert([
+        /* Habilitar: Administrador principal del sistema */
+        DB::table('revisores')->insert([
+            'nombre' => 'Administrador',
+            'apellido_paterno' => 'General',
+            'apellido_materno' => 'Sistema',
+            'correo' => 'admin@unison.mx',
+            'contrasena' => Hash::make('Admin2026!'),
+            'rol' => 'Administrador',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        /* Habilitar: Segunda ronda 2026 */
+        DB::table('revisores')->insert([
             'nombre' => 'JESUS MIGUEL',
             'apellido_paterno' => 'VARELA',
             'apellido_materno' => 'LOPEZ',
             'correo' => 'a224216851@unison.mx',
-            'contrasena' => Hash::make('MJ1L2r1V'),
+            'contrasena' => Hash::make('Admin2026!'),
+            'rol' => 'Administrador',
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
 /*    DB::table('revisores')->insert([
             'nombre' => 'ALEJANDRA',

@@ -20,7 +20,7 @@ class Revisores extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'correo', 'contrasena',
+        'nombre', 'apellido_paterno', 'apellido_materno', 'correo', 'contrasena', 'rol',
     ];
 
     /**
@@ -37,7 +37,6 @@ class Revisores extends Authenticatable
     }
     
     public function validaciones(){
-        return $this->belongsTo(Validaciones::class);
+        return $this->hasMany(Validaciones::class, 'id_revisor');
     }
-
 }

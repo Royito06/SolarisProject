@@ -161,19 +161,35 @@ if (-not $dbListening.TcpTestSucceeded) {
 & (Join-Path $mysqlBin "mysql.exe") -P 3307 -h 127.0.0.1 -u root -proot -e "CREATE DATABASE IF NOT EXISTS concursofm CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;" 2>$null
 & (Join-Path $mysqlBin "mysql.exe") -P 3307 -h 127.0.0.1 -u root -proot -e "CREATE USER IF NOT EXISTS 'concursofm'@'127.0.0.1' IDENTIFIED BY 'btHRD729'; GRANT ALL PRIVILEGES ON concursofm.* TO 'concursofm'@'127.0.0.1'; CREATE USER IF NOT EXISTS 'concursofm'@'localhost' IDENTIFIED BY 'btHRD729'; GRANT ALL PRIVILEGES ON concursofm.* TO 'concursofm'@'localhost'; FLUSH PRIVILEGES;" 2>$null
 
+# Instalar dependencias de Composer si falta la carpeta vendor
+$vendorDir = Join-Path $PSScriptRoot "vendor"
+if (-not (Test-Path $vendorDir)) {
+    Write-Host "      Instalando dependencias de Laravel (Composer)..." -ForegroundColor Yellow
+    Set-Location $PSScriptRoot
+    & (Join-Path $phpDir "php.exe") (Join-Path $phpDir "composer.phar") install --ignore-platform-reqs --no-security-blocking --no-interaction
+}
+
 # Asegurar archivo .env
 $envFile = Join-Path $PSScriptRoot ".env"
 if (-not (Test-Path $envFile)) {
     Copy-Item (Join-Path $PSScriptRoot ".env.example") $envFile
-    & (Join-Path $phpDir "php.exe") (Join-Path $PSScriptRoot "artisan") key:generate --force
 }
 
-# Asegurar DB_HOST=127.0.0.1 en .env
 $envContent = Get-Content $envFile -Raw
+if ($envContent -match "DB_PORT=3306") {
+    $envContent = $envContent -replace "DB_PORT=3306", "DB_PORT=3307"
+    $envContent = $envContent -replace "DB_DATABASE=laravel", "DB_DATABASE=concursofm"
+    $envContent = $envContent -replace "DB_USERNAME=root", "DB_USERNAME=concursofm"
+    $envContent = $envContent -replace "DB_PASSWORD=", "DB_PASSWORD=btHRD729"
+    Set-Content $envFile $envContent
+}
 if ($envContent -match "DB_HOST=localhost") {
     $envContent = $envContent -replace "DB_HOST=localhost", "DB_HOST=127.0.0.1"
     Set-Content $envFile $envContent
 }
+
+# Generar APP_KEY si falta
+& (Join-Path $phpDir "php.exe") (Join-Path $PSScriptRoot "artisan") key:generate --force
 
 # Ejecutar migraciones y seeders
 Write-Host "      Ejecutando migraciones y seeders de Laravel..." -ForegroundColor Yellow

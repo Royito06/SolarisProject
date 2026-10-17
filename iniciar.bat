@@ -1,5 +1,6 @@
 @echo off
 title ConcursoFitMat - Sistema de Concurso de Fisica y Matematicas
+cd /d "%~dp0"
 echo ========================================================
 echo   Iniciando ConcursoFitMat (Laravel 7)
 echo ========================================================

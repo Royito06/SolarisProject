@@ -49,8 +49,9 @@ Route::put('/documentos-rechazados/{asistente}', 'DocumentosController@actualiza
 
 //Route::resource('revisores', 'RevisoresController');
 
-Route::prefix('revisores')->group(function () {
+Route::prefix('revisores')->middleware('auth:revisor')->group(function () {
     Route::get('/', 'RevisoresController@index')->name('revisores.index');
+    Route::post('/cargar-correos', 'RevisoresController@store')->name('revisores.store');
     Route::get('/lista-espera', 'RevisoresController@listaEspera')->name('revisores.lista-espera');
     Route::get('/{asistente}/validacion', 'ValidacionesController@edit')->name('validaciones.edit');
     Route::put('/{asistente}', 'ValidacionesController@update')->name('validaciones.update');
