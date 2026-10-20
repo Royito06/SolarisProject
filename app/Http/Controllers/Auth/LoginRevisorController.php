@@ -52,7 +52,7 @@ class LoginRevisorController extends Controller
         //dd($request);
         //$credentials = $request->only('correo', 'contrasena');
         $val = Validator::make($request->all(),[
-            'correo' => ['required', 'exists:revisores'],
+            'correo' => ['required', 'exists:revisores,correo'],
             'contrasena' => ['required', 'min:6'],
         ]);
 
@@ -65,7 +65,7 @@ class LoginRevisorController extends Controller
             if (Auth::guard('revisor')->attempt(['correo' => $request->get('correo'), 'password' => $request->get('contrasena')])) {
                 return redirect()->intended('revisores');
             }else{
-                return back()->withErrors(['contrasena' => trans('auth.password')])->withInput(request(['contrasena']));
+                return back()->withErrors(['contrasena' => trans('auth.password')])->withInput($request->only('correo'));
             }
         }
  /*        if (Auth::guard('revisor')->attempt(['correo' => $request->get('correo'), 'password' => $request->get('contrasena')])) {

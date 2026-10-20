@@ -60,7 +60,7 @@ Route::prefix('revisores')->middleware('auth:revisor')->group(function () {
 });
 Route::get('wsgetuserdata/{userID}', 'RevisoresController@wsGetUserData');
 
-Route::get('admin', 'Auth\LoginRevisorController@showLoginForm')->middleware('guest');
+Route::get('admin', 'Auth\LoginRevisorController@showLoginForm')->middleware('guest:revisor');
 Route::post('admin/login', 'Auth\LoginRevisorController@login')->name('admin.login');
 Route::post('admin/logout', 'Auth\LoginRevisorController@logout')->name('admin.logout');
 

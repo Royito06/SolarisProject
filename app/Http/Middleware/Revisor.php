@@ -17,10 +17,9 @@ class Revisor
      */
     public function handle($request, Closure $next)
     {
-        dd(Auth::attempt());
-        /* if(!Auth::){
-            return redirect('revisores');
-        } */
+        if (!Auth::guard('revisor')->check()) {
+            return redirect('admin');
+        }
         return $next($request);
     }
 }
