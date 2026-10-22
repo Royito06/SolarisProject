@@ -58,7 +58,8 @@ class Asistente extends Authenticatable implements MustVerifyEmail, CanResetPass
     }
 
     public function asesor(){
-        return $this->belongsTo(Asesor::class);
+        //return $this->belongsTo(Asesor::class);
+        return $this->hasOne(Asesor::class, 'id_asistente');
     }
 
     public function concursos(){

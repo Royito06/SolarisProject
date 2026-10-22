@@ -33,9 +33,11 @@
                         <th>Nombre</th>
                         {{-- <th>Fecha de envio de documento</th> --}}
                         <th>No. Folio</th>
+                        <th>Escuela</th> 
                         <th>Concursos</th>
                         <th>Estatus</th>
                         <th>Acción</th>
+                        <th>Asesor</th>
                       </tr>
                     </thead>
                     <tbody id="listaTabla">
@@ -56,6 +58,10 @@
                             
                               <td><p >Alumno sin número de folio</p></td>
                             @endif
+                            
+                            <td>
+                            <p>{{ $asistente->escuela_origen ?? 'Sin escuela registrada' }}</p>
+                            </td>
                             {{-- 
                               Codigo para concatenar los concursos inscrito del alumno  
                             --}}
@@ -86,10 +92,12 @@
                               <td><p>Sin concursos</p></td>
                               
                               <td><p>Enviando</p></td>
-                             
                             
                             @endif
-                            
+
+                            <td>
+                              <p>{{ $asistente->asesor ? $asistente->asesor->nombre : 'Sin asesor' }}</p>
+                            </td>
                             
                             <td><button value="{{$asistente->id}}" type="button" class="btn btn-info btn-sm botonInfo" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
                             {{-- @if ($asistente->documentos->last()->validaciones[$key]->estado == 'Espera' )

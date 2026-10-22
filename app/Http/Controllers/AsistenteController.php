@@ -117,6 +117,20 @@ class AsistenteController extends Controller
         $asistente->concursos()->attach($concursos);        
        
         $asistente->save();
+        if ($request->filled('asesor_nombre')) {
+            \App\Asesor::updateOrCreate(
+                ['id_asistente' => $asistente->id],
+                [
+                    'nombre'             => $request->input('asesor_nombre'),
+                    'apellido_paterno'   => '',
+                    'apellido_materno'   => '',
+                    'correo_electronico' => $request->input('asesor_correo') ?? '',
+                    'telefono'           => 0,
+                    'escuela_origen'     => $asistente->escuela_origen ?? ''
+                ]
+            );
+        }
+        
         /**
          * DOCUMENTOS
          * se llama a la funcion store del controlador DocumentosController.

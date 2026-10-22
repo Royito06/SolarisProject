@@ -1,4 +1,4 @@
-
+n
 function buscadorPorNombre() {
 
     let input, filter, tr, td, vistaInscrito;
@@ -16,6 +16,7 @@ function buscadorPorNombre() {
        */
       nombre = td.getElementsByTagName("p")[0];
       folio = td.getElementsByTagName("p")[1];
+      escuela   = td.getElementsByTagName("p")[2];
       concursos = td.getElementsByTagName('p')[2];
       estado = td.getElementsByTagName('p')[3];
 
@@ -48,12 +49,13 @@ function buscadorPorNombre() {
          * si se sale del indice regresa -1, por lo tanto si el valor da igual a -1 se esconde el TR de la tabla
          * si es mayor a -1 se sigue mostrando 
          */
-        if (valorNombre.toUpperCase().indexOf(filter) > -1 || valorFolio.toUpperCase().indexOf(filter) > -1 
-          || valorConcursos.toUpperCase().indexOf(filter) > -1 || valorEstado.toUpperCase().indexOf(filter) > -1) {
-          
-          tr[i].style.display = "";
+        if (valorNombre.toUpperCase().indexOf(filter) > -1 || 
+            valorFolio.toUpperCase().indexOf(filter) > -1 || 
+            valorEscuela.toUpperCase().indexOf(filter) > -1 || 
+            valorConcursos.toUpperCase().indexOf(filter) > -1) {
+            tr[i].style.display = "";
         } else {
-          tr[i].style.display = "none";
+            tr[i].style.display = "none";
         }
       }
       

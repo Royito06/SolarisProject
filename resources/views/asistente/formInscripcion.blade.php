@@ -55,7 +55,7 @@
                                 @enderror
                             </div>
                         </div>
-
+<!--
                         <div class="form-group row">
                             <label for="nombre_tutor" class="col-md-4 col-form-label text-md-right">
                                 {{ __('Nombre del tutor:') }}
@@ -76,7 +76,24 @@
                                 @enderror
                             </div>
                         </div>
+-->
 
+                        <div class="form-group row">
+                            <label for="asesor_nombre" class="col-md-4 col-form-label text-md-right">Nombre del Asesor (Opcional):</label>
+                            <div class="col-md-6">
+                                <input id="asesor_nombre" type="text" class="form-control" name="asesor_nombre" 
+                                    value="{{ old('asesor_nombre') }}" placeholder="Nombre y apellidos del asesor / maestro">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="asesor_correo" class="col-md-4 col-form-label text-md-right">Correo del Asesor:</label>
+                            <div class="col-md-6">
+                                <input id="asesor_correo" type="email" class="form-control" name="asesor_correo" 
+                                    value="{{ old('asesor_correo') }}" placeholder="correo@ejemplo.com">
+                            </div>
+                        </div>
+                        
                         <div class="form-group row">
                             <label for="telefono" class="col-md-4 col-form-label text-md-right">{{ __('Teléfono:') }}</label>
 
