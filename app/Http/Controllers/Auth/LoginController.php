@@ -57,7 +57,9 @@ class LoginController extends Controller
             return redirect()->back()->withInput()->withErrors($val->errors());
         }else{
             if (Auth::attempt(['correo_electronico' => $request->get('correo_electronico'), 'password' => $request->get('contrasena')])) {
-                return redirect()->intended('/');
+                if (Auth::attempt(['correo_electronico' => $request->get('correo_electronico'), 'password' => $request->get('contrasena')])) {
+                    return redirect()->intended('/asistentes');
+                }
             }else{
                 return back()->withErrors(['contrasena' => trans('auth.password')])->withInput(request(['contrasena']));
             }

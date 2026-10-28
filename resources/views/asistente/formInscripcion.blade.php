@@ -163,7 +163,6 @@
                         <center>
                         <div class="col-md-9"><b>IMPORTANTE:</b> Recuerda que tu inscripción estará finalizada hasta que el comité así te lo confirme por correo electrónico, de modo que te pedimos estar atento al mismo.</div>
 </center><br>
-<!--HABILITAR PARA CREAR REGISTROS!!! 
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -171,7 +170,6 @@
                                 </button>
                             </div>
                         </div>
-                    <--Hasta aqui-->
                     </form>
                 </div>
             </div>

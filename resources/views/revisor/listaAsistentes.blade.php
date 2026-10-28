@@ -36,8 +36,8 @@
                         <th>Escuela</th> 
                         <th>Concursos</th>
                         <th>Estatus</th>
-                        <th>Acción</th>
                         <th>Asesor</th>
+                        <th>Acción</th>
                       </tr>
                     </thead>
                     <tbody id="listaTabla">

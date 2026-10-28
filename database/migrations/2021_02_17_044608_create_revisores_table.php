@@ -13,17 +13,19 @@ class CreateRevisoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('revisores', function (Blueprint $table) {
-            $table->id();
-            $table->string('nombre')->default('Revisor');
-            $table->string('apellido_paterno')->default('Designado');
-            $table->string('apellido_materno')->default('Comité');
-            $table->string('correo');
-            $table->string('contrasena');
-            $table->enum('rol', ['Revisor','Visualizador','Administrador'])->default('Revisor');
-            $table->rememberToken();
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('revisores')) {
+            Schema::create('revisores', function (Blueprint $table) {
+                $table->id();
+                $table->string('nombre')->default('Revisor');
+                $table->string('apellido_paterno')->default('Designado');
+                $table->string('apellido_materno')->default('Comité');
+                $table->string('correo');
+                $table->string('contrasena');
+                $table->enum('rol', ['Revisor','Visualizador','Administrador'])->default('Revisor');
+                $table->rememberToken();
+                $table->timestamps();
+            });
+        }
     }
 
     /**

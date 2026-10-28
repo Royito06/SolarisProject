@@ -49,6 +49,11 @@
                         <label for="">{{$validacion->escuela_origen}}</label>
                     </div>
 
+                    <div class="form-group" style="font-size: 20px">
+                        <label class="col-md-2 col-form-label text-md-left">Asesor:</label>
+                        <label>{{ $validacion->asesor->nombre ?? 'Sin asesor registrado' }}</label>
+                    </div>
+
                     <hr>
 
 

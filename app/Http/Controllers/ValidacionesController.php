@@ -203,20 +203,12 @@ class ValidacionesController extends Controller
             //dd("dd");
         }
 
+        $validacion->id_revisor = Auth::guard('revisor')->user()->id;
         $validacion->fecha_validacion = $fecha_actual;
-        
         $validacion->save();
 
         return redirect()->route('revisores.lista-espera');
-        
     }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Validaciones  $validaciones
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Validaciones $validaciones)
     {
         //

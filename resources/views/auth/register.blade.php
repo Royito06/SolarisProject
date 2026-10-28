@@ -101,7 +101,7 @@
                         <div style="text-align: center;">
                             <p><br>Es importante que conserves estos datos, pues te servirán para completar tu solicitud de inscripción.</p><br>
                         </div>
-<!--HABILITAR PARA CREAR REGISTROS!!!
+
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
@@ -109,7 +109,6 @@
                                 </button>
                             </div>
                         </div>
-                    <-- hasta aqui-->
                     </form>
                 </div>
             </div>
