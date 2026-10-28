@@ -59,6 +59,7 @@
                 </div>
             @endif
 
+            @if(Auth::guard('revisor')->user()->rol === 'Administrador')
             <div class="row">
                 {{-- Formulario de carga masiva y manual --}}
                 <div class="col-lg-12">
@@ -139,6 +140,7 @@
                     </div>
                 </div>
             </div>
+            @endif
 
             {{-- Tabla con los revisores actuales --}}
             <div class="row">

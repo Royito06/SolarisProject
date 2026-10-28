@@ -24,6 +24,7 @@
                 <h3 class="card-title">Informacion del Asistente</h3>
             </div>
     
+            @if(Auth::guard('revisor')->user()->rol !== 'Visualizador')
             <form role="form" method="POST" action="{{route('validaciones.update', $validacion->id)}}">
                 @csrf
                 @method("PUT")
@@ -109,6 +110,9 @@
                     <a type="button" href="{{route('revisores.lista-espera')}}" class="btn btn-secondary" aria-required="true">Cancelar</a>
                 </div>
             </form>      
+            @else
+                <div class="alert alert-warning mt-3"><i class="fas fa-eye mr-1"></i><strong>Modo lectura:</strong> Tu rol de Visualizador no permite aprobar ni rechazar asistentes.</div>
+            @endif
         </div>
     </div>
 </div>

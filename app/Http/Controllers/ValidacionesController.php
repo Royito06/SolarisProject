@@ -7,6 +7,7 @@ use App\Documentos;
 use App\Validaciones;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use PhpParser\Node\Expr\Cast\String_;
@@ -83,6 +84,12 @@ class ValidacionesController extends Controller
      */
     public function update(Request $request, Validaciones $asistente)
     {
+        // Solo Revisor y Administrador pueden validar
+        if (Auth::guard('revisor')->user()->rol === 'Visualizador') {
+            return redirect()->route('revisores.lista-espera')
+                ->with('error', 'No tienes permisos para validar asistentes.');
+        }
+
         //dd($request);
         $val = Validator::make($request->all(),[
             'fotoRechazo' => ['nullable', 'size:20'],

@@ -42,7 +42,11 @@
                                 <tr>
                                   <td>{{$asistenteEspera->nombre}}</td>
                                   <td>{{$asistenteEspera->created_at}}</td>
+                                  @if(Auth::guard('revisor')->user()->rol !== 'Visualizador')
                                   <td><a class="btn btn-primary" href="{{ route('validaciones.edit', $asistenteEspera->id) }}"  type="submit">Validar</a></td>
+                                  @else
+                                  <td><span class="badge badge-secondary"><i class="fas fa-eye mr-1"></i>Solo lectura</span></td>
+                                  @endif
                                 </tr>
                                 @endif
                             @endif
