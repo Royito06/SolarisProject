@@ -114,8 +114,9 @@ class AsistenteController extends Controller
         $asistente->escuela_origen = $request->input('escuela_origen');
         $asistente->telefono = $request->input('telefono');
         
-        $asistente->concursos()->attach($concursos);        
-       
+        //$asistente->concursos()->attach($concursos);        
+       $asistente->concursos()->sync($concursos); //para que no pase con futuros alumnos
+
         $asistente->save();
         if ($request->filled('asesor_nombre')) {
             \App\Asesor::updateOrCreate(

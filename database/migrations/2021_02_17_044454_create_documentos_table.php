@@ -17,7 +17,7 @@ class CreateDocumentosTable extends Migration
             $table->id();
             $table->unsignedBigInteger('id_asistente');
             $table->string('foto_asistente', 200);
-            $table->string('acta_asistente', 200);
+            $table->string('acta_asistente', 200)->nullable();
             $table->string('constancia_escuela', 200);
             $table->string('fecha_creacion');
             $table->foreign('id_asistente')->references('id')->on('asistentes')->onUpdate('cascade')->onDelete('cascade');

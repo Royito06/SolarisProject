@@ -1,4 +1,3 @@
-n
 function buscadorPorNombre() {
 
     let input, filter, tr, td, vistaInscrito;

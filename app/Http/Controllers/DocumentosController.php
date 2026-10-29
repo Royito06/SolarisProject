@@ -73,7 +73,8 @@ class DocumentosController extends Controller
         //crea el nombre de la imagen
         $imageName = $asistente->curp . '_' . $fecha_actual->format('d_M_Y_h') . '.png';
         //nombra la imagen guardandola en el folder seleccionado 
-        file_put_contents("storage/fotos-de-asistentes/$imageName", $data);
+        //file_put_contents("storage/fotos-de-asistentes/$imageName", $data);
+        \Illuminate\Support\Facades\Storage::disk('public')->put("fotos-de-asistentes/$imageName", $data);
 
         $extensiones = [
             /* 'foto_asistente'     => $request->file('foto_asistente')->getClientOriginalExtension(), */

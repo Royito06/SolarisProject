@@ -223,11 +223,13 @@ class RevisoresController extends Controller
 
     public function wsGetUserData($id){
         
-        $userData = Asistente::findOrFail($id);
+        //$userData = Asistente::findOrFail($id); Lo comente porque en la tarjeta de info no carga los documentos
+        $userData = Asistente::with('documentos')->findOrFail($id); //antigravity me dio esta linea en su lugar
         // dump($userData->documentos->validaciones->last());
         if ($userData->documentos()->exists()) {
             $userStatus = $userData->documentos->validaciones->last();
-            $userCourses = $userData->concursos;
+            //$userCourses = $userData->concursos; 
+            $userCourses = $userData->concursos->unique('id')->values(); //Esto filtra los concursos para mostrar solo los únicos sin importar si en la base de datos hay duplicados
             // dump(gettype($userCourses));
             $data = array($userData, $userStatus,$userCourses);
         }else{
