@@ -1,71 +1,54 @@
-n
-function buscadorPorNombre() {
 
-    let input, filter, tr, td, vistaInscrito;
-    input = document.getElementById("inputBuscadorNombre");
-    filter = input.value.toUpperCase();
-    tr = document.querySelectorAll("#tablaTR");
-    inputInscritos = document.getElementById('vistaInscritos'); //variable para saber si se consulta de la vista del listado de inscritos
-    vistaInscrito = inputInscritos.value;
+function buscadorPorNombre() {
+    let input = document.getElementById("inputBuscadorNombre");
+    let filter = input.value.toUpperCase();
+    let tr = document.querySelectorAll("#tablaTR");
+    let inputInscritos = document.getElementById('vistaInscritos');
+    let vistaInscrito = inputInscritos ? inputInscritos.value : 0;
     
     for (let i = 0; i < tr.length; i++) {
-      td = tr[i];
-      
-      /**
-       * valores de la que tiene cada celda de la tabla
-       */
-      nombre = td.getElementsByTagName("p")[0];
-      folio = td.getElementsByTagName("p")[1];
-      escuela   = td.getElementsByTagName("p")[2];
-      concursos = td.getElementsByTagName('p')[2];
-      estado = td.getElementsByTagName('p')[3];
+        let pTags = tr[i].getElementsByTagName("p");
+        
+        let valorNombre = "";
+        let valorFolio = "";
+        let valorConcursos = "";
+        let valorEstado = "";
+        let valorEscuela = "";
 
-      if(vistaInscrito == 1){
-        valorNombre = nombre.textContent || nombre.innerText;
-        valorFolio = folio.textContent || folio.innerText;
-        valorConcursos = concursos.textContent || concursos.innerText;
-        // valorEstado = estado.textContent || estado.innerText;
-        /**
-         * condicional para filtrar los valores que se escriban en el input "filter"
-         * si se sale del indice regresa -1, por lo tanto si el valor da igual a -1 se esconde el TR de la tabla
-         * si es mayor a -1 se sigue mostrando 
-         */
-        if (valorNombre.toUpperCase().indexOf(filter) > -1 || valorFolio.toUpperCase().indexOf(filter) > -1 
-          || valorConcursos.toUpperCase().indexOf(filter) > -1 ) {
-          
-          tr[i].style.display = "";
+        if (vistaInscrito == 1) {
+            // VISTA: Lista de Inscritos (p[0]=Nombre, p[1]=Folio, p[2]=Concursos)
+            valorNombre = pTags[0] ? (pTags[0].textContent || pTags[0].innerText) : "";
+            valorFolio = pTags[1] ? (pTags[1].textContent || pTags[1].innerText) : "";
+            valorConcursos = pTags[2] ? (pTags[2].textContent || pTags[2].innerText) : "";
+            valorEstado = "INSCRITO"; // Todos en esta lista están aprobados/inscritos
+
+            if (valorNombre.toUpperCase().indexOf(filter) > -1 || 
+                valorFolio.toUpperCase().indexOf(filter) > -1 || 
+                valorConcursos.toUpperCase().indexOf(filter) > -1 ||
+                valorEstado.indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
         } else {
-          tr[i].style.display = "none";
+            // VISTA: Todos los Asistentes (p[0]=Nombre, p[1]=Folio, p[2]=Escuela, p[3]=Concursos, p[4]=Estatus, p[5]=Asesor)
+            valorNombre = pTags[0] ? (pTags[0].textContent || pTags[0].innerText) : "";
+            valorFolio = pTags[1] ? (pTags[1].textContent || pTags[1].innerText) : "";
+            valorEscuela = pTags[2] ? (pTags[2].textContent || pTags[2].innerText) : "";
+            valorConcursos = pTags[3] ? (pTags[3].textContent || pTags[3].innerText) : "";
+            valorEstado = pTags[4] ? (pTags[4].textContent || pTags[4].innerText) : "";
+
+            if (valorNombre.toUpperCase().indexOf(filter) > -1 || 
+                valorFolio.toUpperCase().indexOf(filter) > -1 || 
+                valorEscuela.toUpperCase().indexOf(filter) > -1 || 
+                valorConcursos.toUpperCase().indexOf(filter) > -1 || 
+                valorEstado.toUpperCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
         }
-      }else{
-
-        valorNombre = nombre.textContent || nombre.innerText;
-        valorFolio = folio.textContent || folio.innerText;
-        valorConcursos = concursos.textContent || concursos.innerText;
-        valorEstado = estado.textContent || estado.innerText;
-
-        /**
-         * condicional para filtrar los valores que se escriban en el input "filter"
-         * si se sale del indice regresa -1, por lo tanto si el valor da igual a -1 se esconde el TR de la tabla
-         * si es mayor a -1 se sigue mostrando 
-         */
-        if (valorNombre.toUpperCase().indexOf(filter) > -1 || 
-            valorFolio.toUpperCase().indexOf(filter) > -1 || 
-            valorEscuela.toUpperCase().indexOf(filter) > -1 || 
-            valorConcursos.toUpperCase().indexOf(filter) > -1) {
-            tr[i].style.display = "";
-        } else {
-            tr[i].style.display = "none";
-        }
-      }
-      
-      /**FIN  */
-
-      
-      
     }
-
-    
 }
 
 //FUNCION PARA EL MODAL DE MAS INFORMACION EN LA LISTA DE ASISTENTES
