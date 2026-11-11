@@ -40,12 +40,14 @@
 					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 					<!-- Add icons to the links using the .nav-icon class
 						with font-awesome or any other icon font library -->
+						@if(Auth::guard('revisor')->user() && Auth::guard('revisor')->user()->rol === 'Administrador')
 						<li class="nav-item">
 							<a href="{{ route('revisores.index') }}" class="nav-link" id="tab-revisores">
 								<i class="nav-icon fas fa-users-cog"></i>
 								<p>Cargar Revisores</p>
 							</a>
 						</li>
+						@endif
 						<li class="nav-item has-treeview" id="dd">
 							<a href="#" class="nav-link">
 								<i class="nav-icon fas fa-user"></i>

@@ -65,27 +65,30 @@
                             {{-- 
                               Codigo para concatenar los concursos inscrito del alumno  
                             --}}
-                            @if ($asistente->documentos()->exists())
+                            @if ($asistente->documentos)
                               @php
-                                  
                                 $arrayConcursos = Array();
                                 for($i = 0 ; $i <  count($asistente->concursos) ; $i++){
                                   $arrayConcursos[] = $asistente->concursos[$i]->nombre ;
-                                  
                                 }
                                 $concursos = implode(", ",$arrayConcursos);
                               @endphp
                               {{-- 
                                 FIN CODIGO
                               --}}
-                              <td><p>{{$concursos}}</p></td>
-                              @if ($asistente->documentos->validaciones->last()->estado == 'Espera')
-
-                                <td><p>Espera</p></td>
-                              @elseif($asistente->documentos->validaciones->last()->estado == 'Rechazado')
-                                <td><p>Renvío</p></td>
-                              @elseif($asistente->documentos->validaciones->last()->estado == 'Aprobado')
-                                <td><p>Inscrito</p></td>
+                              <td><p>{{$concursos ?: 'Sin concursos'}}</p></td>
+                              @if ($asistente->documentos->validaciones && $asistente->documentos->validaciones->isNotEmpty())
+                                @if ($asistente->documentos->validaciones->last()->estado == 'Espera')
+                                  <td><p>Espera</p></td>
+                                @elseif($asistente->documentos->validaciones->last()->estado == 'Rechazado')
+                                  <td><p>Renvío</p></td>
+                                @elseif($asistente->documentos->validaciones->last()->estado == 'Aprobado')
+                                  <td><p>Inscrito</p></td>
+                                @else
+                                  <td><p>{{ $asistente->documentos->validaciones->last()->estado }}</p></td>
+                                @endif
+                              @else
+                                <td><p>Enviando</p></td>
                               @endif
                             
                             @else

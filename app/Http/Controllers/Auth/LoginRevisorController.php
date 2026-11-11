@@ -63,7 +63,9 @@ class LoginRevisorController extends Controller
             return redirect()->back()->withInput()->withErrors($val->errors());
         }else{
             if (Auth::guard('revisor')->attempt(['correo' => $request->get('correo'), 'password' => $request->get('contrasena')])) {
-                return redirect()->intended('revisores');
+                $rol = Auth::guard('revisor')->user()->rol ?? 'Revisor';
+                $destino = ($rol === 'Administrador') ? 'revisores' : 'revisores/lista-espera';
+                return redirect()->intended($destino);
             }else{
                 return back()->withErrors(['contrasena' => trans('auth.password')])->withInput($request->only('correo'));
             }

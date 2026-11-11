@@ -74,7 +74,6 @@ class Asistente extends Authenticatable implements MustVerifyEmail, CanResetPass
     // }
 
     public function documentos(){
-        //return $this->hasOne(Documentos::class,'id_asistente'); //retorna el primer elemento encontrado.
-        return $this->hasOne(Documentos::class,'id_asistente')->latest()->limit(1);
+        return $this->hasOne(Documentos::class, 'id_asistente')->latest('id');
     }
 }

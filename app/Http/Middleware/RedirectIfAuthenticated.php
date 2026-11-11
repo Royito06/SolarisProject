@@ -20,7 +20,8 @@ class RedirectIfAuthenticated
     {
         if (Auth::guard($guard)->check()) {
             if ($guard === 'revisor') {
-                return redirect('revisores');
+                $rol = Auth::guard('revisor')->user()->rol ?? 'Revisor';
+                return redirect($rol === 'Administrador' ? 'revisores' : 'revisores/lista-espera');
             }
             //return redirect(RouteServiceProvider::HOME);
             return redirect('asistentes');

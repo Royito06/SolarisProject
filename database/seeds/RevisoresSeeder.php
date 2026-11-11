@@ -94,6 +94,40 @@ class RevisoresSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        /* Usuarios de prueba para cada rol */
+        DB::table('revisores')->insert([
+            'nombre' => 'Admin',
+            'apellido_paterno' => 'Prueba',
+            'apellido_materno' => 'Sistema',
+            'correo' => 'admin.prueba@unison.mx',
+            'contrasena' => Hash::make('Concurso2026!'),
+            'rol' => 'Administrador',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('revisores')->insert([
+            'nombre' => 'Revisor',
+            'apellido_paterno' => 'Prueba',
+            'apellido_materno' => 'Comite',
+            'correo' => 'revisor.prueba@unison.mx',
+            'contrasena' => Hash::make('Concurso2026!'),
+            'rol' => 'Revisor',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        DB::table('revisores')->insert([
+            'nombre' => 'Visualizador',
+            'apellido_paterno' => 'Prueba',
+            'apellido_materno' => 'Invitado',
+            'correo' => 'visualizador.prueba@unison.mx',
+            'contrasena' => Hash::make('Concurso2026!'),
+            'rol' => 'Visualizador',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
 /*    DB::table('revisores')->insert([
             'nombre' => 'ALEJANDRA',
             'apellido_paterno' => 'FONSECA',

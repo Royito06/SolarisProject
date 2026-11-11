@@ -24,7 +24,7 @@
                 <h3 class="card-title">Informacion del Asistente</h3>
             </div>
     
-            @if(Auth::guard('revisor')->user()->rol !== 'Visualizador')
+            @if((Auth::guard('revisor')->user()->rol ?? '') !== 'Visualizador')
             <form role="form" method="POST" action="{{route('validaciones.update', $validacion->id)}}">
                 @csrf
                 @method("PUT")
@@ -63,8 +63,10 @@
                             <h3 class="card-title">Imagenes del Asistente</h3>
                         </div>
                         <div class="form-group" style="font-size: 20px">
-                            <label class="col-md-2 col-form-label text-md-left" for="">Foto para la credencial:</label>
-                            <img src="/storage/{{$validacion->foto_asistente}}" alt="">
+                            <label class="col-md-3 col-form-label text-md-left" for="">Foto para la credencial:</label>
+                            <div class="mb-3">
+                                <img src="/storage/{{$validacion->foto_asistente}}" alt="Foto asistente" class="img-thumbnail" style="max-height: 300px; display: inline-block;">
+                            </div>
     
                             <p>
                                 <b style="color: green"><input type="radio" name="fotoRechazo" value="" onchange="sholo('#textFoto','esconder', 'txt1')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;</b>
@@ -84,13 +86,15 @@
                         <hr>
    
                         <div class="form-group" style="font-size: 20px">
-                            <label class="col-md-2 col-form-label text-md-left" for="">Constancia o credencial escolar:</label>
-                            <img src="/storage/{{$validacion->constancia_escuela}}" alt="">
+                            <label class="col-md-3 col-form-label text-md-left" for="">Constancia o credencial escolar:</label>
+                            <div class="mb-3">
+                                <img src="/storage/{{$validacion->constancia_escuela}}" alt="Constancia escuela" class="img-thumbnail" style="max-height: 350px; display: inline-block;">
+                            </div>
     
                             <p>
                                 <b style="color: green"><input type="radio" name="constanciaRechazo" value="" onchange="sholo('#textConstancia','esconder', 'txt3')" checked/>&nbsp;Aceptar&nbsp;&nbsp;&nbsp;</b>
                                 <b style="color: red"><input type="radio" name="constanciaRechazo" value="Constancia escolar" onchange="sholo('#textConstancia','mostrar', 'txt3')"/>&nbsp;Rechazar</b>
-                            </b>
+                            </p>
     
                             <div class="form-group" style="font-size: 20px; display: none;" id="textConstancia">
                                 <textarea style="width: 100%" class="@error('textoConstanciaRechazo') is-invalid @enderror" name="textoConstanciaRechazo" id="txt3" cols="" rows="3" minlength="10" placeholder="Introduzca un breve texto sobre la razón de rechazo">{{ old('textoConstanciaRechazo') }}</textarea>
@@ -121,10 +125,14 @@
     function sholo(e, e2, e3) {
         if(e2 =="esconder"){
             $(e).hide();
-            //document.getElementById(e3).value = "";
+            if (document.getElementById(e3)) {
+                document.getElementById(e3).value = "";
+            }
         } else if (e2 == "mostrar") {
             $(e).show();
-            //document.getElementById(e3).value = "Introduzca un breve texto sobre la razón de rechazo";
+            if (document.getElementById(e3)) {
+                document.getElementById(e3).focus();
+            }
         } 
     };
 </script>

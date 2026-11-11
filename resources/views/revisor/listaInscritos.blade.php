@@ -39,15 +39,15 @@
                       </tr>
                     </thead>
                     <tbody>
+                      @php $hayInscritos = false; @endphp
                       @foreach ($asistentesInscritos as $asistenteInscrito)
-                        @if (isset($asistenteInscrito->documentos->validaciones))
+                        @if (isset($asistenteInscrito->documentos->validaciones) && $asistenteInscrito->documentos->validaciones->isNotEmpty())
                           @if ($asistenteInscrito->documentos->validaciones->last()->estado == 'Aprobado')
                             @php
-                                  
+                              $hayInscritos = true;
                               $arrayConcursos = Array();
                               for($i = 0 ; $i <  count($asistenteInscrito->concursos) ; $i++){
                                 $arrayConcursos[] = $asistenteInscrito->concursos[$i]->nombre ;
-                                
                               }
                               $concursos = implode(", ",$arrayConcursos);
                             @endphp
@@ -55,17 +55,20 @@
                               <td><p>{{$asistenteInscrito->nombre}} {{$asistenteInscrito->apellido_paterno}} {{$asistenteInscrito->apellido_materno}}</p></td>
                               {{-- <td>{{$asistenteInscrito->fecha_creacion}}</td> --}}
                               <td><p>{{$asistenteInscrito->folio}}</p></td>
-                              <td><p>{{$concursos}}</p></td>
+                              <td><p>{{$concursos ?: 'Sin concursos'}}</p></td>
                               <td><button value="{{$asistenteInscrito->id}}" type="button" class="btn btn-info btn-sm botonInfo" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
                             </tr>
-
-                            
                           @endif
-                          
                         @endif
-                        
                       @endforeach
-                      
+
+                      @if(!$hayInscritos)
+                        <tr>
+                          <td colspan="4" class="text-center text-muted py-3">
+                            <i class="fas fa-info-circle mr-1"></i> No hay alumnos inscritos con documentación aprobada
+                          </td>
+                        </tr>
+                      @endif
                     </tbody>
                   </table>
                 </div>
