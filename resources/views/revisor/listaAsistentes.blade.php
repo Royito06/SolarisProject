@@ -20,11 +20,12 @@
     <div class="content">
         <div class="container-fluid" >
           {{-- buscador --}}
-          <label for="inputBuscadorNombre">Buscador por: Nombre, Folio, Concursos, Estado</label>
+          <label for="inputBuscadorNombre">Buscador por: Nombre, Folio, Escuela, Concursos, Estado</label>
           <br>
           <input type="text" id="inputBuscadorNombre" onkeyup="buscadorPorNombre()" placeholder="Busca por nombre..." title="Escribe un nombre"> <br>
           <input type="hidden" id="vistaInscritos" name="vistaInscritos" value = 0>
           {{-- fin buscador --}}
+            @include('revisor.partials.indicador_en_vivo', ['vista' => 'asistentes', 'version' => $version])
             <div class="card" style="top: 1rem;">
                 <div class="card-body table-responsive p-0" style="max-height: 700px;">
                   <table class="table table-head-fixed text-nowrap">
@@ -33,78 +34,15 @@
                         <th>Nombre</th>
                         {{-- <th>Fecha de envio de documento</th> --}}
                         <th>No. Folio</th>
+                        <th>Escuela</th> 
                         <th>Concursos</th>
                         <th>Estatus</th>
                         <th>Acción</th>
+                        <th>Asesor</th>
                       </tr>
                     </thead>
                     <tbody id="listaTabla">
-                      @php
-                          // dd($asistentes[3]->documentos->validaciones->last());
-                          // dd($asistentes[1]->documentos()->exists());
-                      @endphp
-                      @foreach ($asistentes as $key => $asistente)
-                      
-                        <tr id='tablaTR'>
-                          <td><p id='nombre'>{{$asistente->nombre}} {{$asistente->apellido_paterno}} {{$asistente->apellido_materno}}</p></td>
-                          {{-- @if (isset($asistente->documentos->last()->fecha_creacion)) --}}
-                            {{-- <td><p >{{$asistente->documentos->fecha_creacion}}</p></td> --}}
-
-                            @if (isset($asistente->folio))
-                              <td><p id="folio">{{$asistente->folio}}</p></td>
-                            @else 
-                            
-                              <td><p >Alumno sin número de folio</p></td>
-                            @endif
-                            {{-- 
-                              Codigo para concatenar los concursos inscrito del alumno  
-                            --}}
-                            @if ($asistente->documentos()->exists())
-                              @php
-                                  
-                                $arrayConcursos = Array();
-                                for($i = 0 ; $i <  count($asistente->concursos) ; $i++){
-                                  $arrayConcursos[] = $asistente->concursos[$i]->nombre ;
-                                  
-                                }
-                                $concursos = implode(", ",$arrayConcursos);
-                              @endphp
-                              {{-- 
-                                FIN CODIGO
-                              --}}
-                              <td><p>{{$concursos}}</p></td>
-                              @if ($asistente->documentos->validaciones->last()->estado == 'Espera')
-
-                                <td><p>Espera</p></td>
-                              @elseif($asistente->documentos->validaciones->last()->estado == 'Rechazado')
-                                <td><p>Renvío</p></td>
-                              @elseif($asistente->documentos->validaciones->last()->estado == 'Aprobado')
-                                <td><p>Inscrito</p></td>
-                              @endif
-                            
-                            @else
-                              <td><p>Sin concursos</p></td>
-                              
-                              <td><p>Enviando</p></td>
-                             
-                            
-                            @endif
-                            
-                            
-                            <td><button value="{{$asistente->id}}" type="button" class="btn btn-info btn-sm botonInfo" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
-                            {{-- @if ($asistente->documentos->last()->validaciones[$key]->estado == 'Espera' )
-                              <td><a class="btn btn-primary" href="{{ route('validaciones.edit', $asistente->id) }}"  type="submit">Validar</a></td>
-                            @endif --}}
-                            
-                          {{-- @else 
-                            <td><p>Alumno no inscrito</p> </td>
-                            <td><p >Alumno sin número de folio</p></td>
-                          @endif --}}
-                          
-                          
-                        </tr>
-                      @endforeach
-                      
+                      @include('revisor.partials.filas_asistentes', ['filas' => $filas])
                     </tbody>
                   </table>
                 </div>
@@ -162,5 +100,10 @@
     </div>
   </div>
 </div>
+
 @endsection
-<script src="{{asset('js/admin.js')}}"></script>
+
+@push('scripts')
+<script src="{{ asset('js/admin.js') }}?v={{ filemtime(public_path('js/admin.js')) }}"></script>
+<script src="{{ asset('js/panel-tiempo-real.js') }}?v={{ filemtime(public_path('js/panel-tiempo-real.js')) }}"></script>
+@endpush

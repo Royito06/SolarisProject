@@ -17,6 +17,12 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="/css/admin/adminlte.min.css">
+    <style>
+        /* Resalta unos segundos las filas que cambiaron o aparecieron en el refresco automático */
+        @keyframes fila-resaltado { from { background-color: #fff3cd; } to { background-color: transparent; } }
+        tr.fila-actualizada > td { animation: fila-resaltado 3s ease-out; }
+        @media (prefers-reduced-motion: reduce) { tr.fila-actualizada > td { animation: none; } }
+    </style>
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
@@ -72,6 +78,7 @@
         document.getElementById(id).setAttribute("class", "nav-item has-treeview menu-open");
       }
   </script>
+    @stack('scripts')
 </body>
 
 </html>

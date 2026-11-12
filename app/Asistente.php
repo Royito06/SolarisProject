@@ -58,7 +58,8 @@ class Asistente extends Authenticatable implements MustVerifyEmail, CanResetPass
     }
 
     public function asesor(){
-        return $this->belongsTo(Asesor::class);
+        //return $this->belongsTo(Asesor::class);
+        return $this->hasOne(Asesor::class, 'id_asistente');
     }
 
     public function concursos(){
@@ -75,5 +76,16 @@ class Asistente extends Authenticatable implements MustVerifyEmail, CanResetPass
     public function documentos(){
         //return $this->hasOne(Documentos::class,'id_asistente'); //retorna el primer elemento encontrado.
         return $this->hasOne(Documentos::class,'id_asistente')->latest()->limit(1);
+    }
+
+    /**
+     * Todos los documentos del asistente (relación 1 a muchos).
+     *
+     * Se usa para cargar los datos del panel con eager loading. No se puede usar
+     * documentos() para eso porque su ->limit(1) se aplicaría a TODA la consulta
+     * de eager loading y solo traería el documento de un asistente.
+     */
+    public function documentosTodos(){
+        return $this->hasMany(Documentos::class,'id_asistente');
     }
 }

@@ -50,17 +50,28 @@ Route::put('/documentos-rechazados/{asistente}', 'DocumentosController@actualiza
 //Route::resource('revisores', 'RevisoresController');
 
 Route::prefix('revisores')->middleware('auth:revisor')->group(function () {
-    Route::get('/', 'RevisoresController@index')->name('revisores.index');
-    Route::post('/cargar-correos', 'RevisoresController@store')->name('revisores.store');
+
+    // Solo Administrador: gestión de revisores
+    Route::middleware('rol:Administrador')->group(function () {
+        Route::get('/', 'RevisoresController@index')->name('revisores.index');
+        Route::post('/cargar-correos', 'RevisoresController@store')->name('revisores.store');
+    });
+
+    // Administrador y Revisor: validar asistentes
+    Route::middleware('rol:Administrador,Revisor')->group(function () {
+        Route::get('/{asistente}/validacion', 'ValidacionesController@edit')->name('validaciones.edit');
+        Route::put('/{asistente}', 'ValidacionesController@update')->name('validaciones.update');
+    });
+
+    // Todos los roles: solo lectura
     Route::get('/lista-espera', 'RevisoresController@listaEspera')->name('revisores.lista-espera');
-    Route::get('/{asistente}/validacion', 'ValidacionesController@edit')->name('validaciones.edit');
-    Route::put('/{asistente}', 'ValidacionesController@update')->name('validaciones.update');
     Route::get('/lista-asistentes', 'RevisoresController@listaAsistentes')->name('revisores.lista-asistentes');
     Route::get('/lista-inscritos', 'RevisoresController@listaInscritos')->name('revisores.lista-inscritos');
+    Route::get('/panel-data/{vista}', 'RevisoresController@panelData')->name('revisores.panel-data')->where('vista', 'espera|asistentes|inscritos');
 });
 Route::get('wsgetuserdata/{userID}', 'RevisoresController@wsGetUserData');
 
-Route::get('admin', 'Auth\LoginRevisorController@showLoginForm')->middleware('guest');
+Route::get('admin', 'Auth\LoginRevisorController@showLoginForm')->middleware('guest:revisor');
 Route::post('admin/login', 'Auth\LoginRevisorController@login')->name('admin.login');
 Route::post('admin/logout', 'Auth\LoginRevisorController@logout')->name('admin.logout');
 

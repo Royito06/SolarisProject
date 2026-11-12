@@ -1,197 +1,134 @@
+/**
+ * Utilidades del panel de revisores:
+ *   1. Buscador de las listas.
+ *   2. Modal "Info" con los datos del asistente.
+ *
+ * Los dos funcionan aunque la tabla se vuelva a pintar (refresco automático, ver
+ * panel-tiempo-real.js): el buscador lee el atributo data-buscar de cada fila y el
+ * modal usa delegación de eventos en lugar de enlazar cada botón al cargar la página.
+ */
 
+/* ------------------------------------------------------------------ */
+/* 1. BUSCADOR                                                         */
+/* ------------------------------------------------------------------ */
+
+// minúsculas y sin acentos, para que "jose" encuentre "José"
+function normalizarTexto(texto) {
+  return (texto || '').toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+// Se llama desde el onkeyup del input y después de cada refresco automático.
 function buscadorPorNombre() {
+  const input = document.getElementById('inputBuscadorNombre');
+  if (!input) return;
 
-    let input, filter, tr, td, vistaInscrito;
-    input = document.getElementById("inputBuscadorNombre");
-    filter = input.value.toUpperCase();
-    tr = document.querySelectorAll("#tablaTR");
-    inputInscritos = document.getElementById('vistaInscritos'); //variable para saber si se consulta de la vista del listado de inscritos
-    vistaInscrito = inputInscritos.value;
-    
-    for (let i = 0; i < tr.length; i++) {
-      td = tr[i];
-      
-      /**
-       * valores de la que tiene cada celda de la tabla
-       */
-      nombre = td.getElementsByTagName("p")[0];
-      folio = td.getElementsByTagName("p")[1];
-      concursos = td.getElementsByTagName('p')[2];
-      estado = td.getElementsByTagName('p')[3];
+  const filtro = normalizarTexto(input.value.trim());
 
-      if(vistaInscrito == 1){
-        valorNombre = nombre.textContent || nombre.innerText;
-        valorFolio = folio.textContent || folio.innerText;
-        valorConcursos = concursos.textContent || concursos.innerText;
-        // valorEstado = estado.textContent || estado.innerText;
-        /**
-         * condicional para filtrar los valores que se escriban en el input "filter"
-         * si se sale del indice regresa -1, por lo tanto si el valor da igual a -1 se esconde el TR de la tabla
-         * si es mayor a -1 se sigue mostrando 
-         */
-        if (valorNombre.toUpperCase().indexOf(filter) > -1 || valorFolio.toUpperCase().indexOf(filter) > -1 
-          || valorConcursos.toUpperCase().indexOf(filter) > -1 ) {
-          
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }else{
-
-        valorNombre = nombre.textContent || nombre.innerText;
-        valorFolio = folio.textContent || folio.innerText;
-        valorConcursos = concursos.textContent || concursos.innerText;
-        valorEstado = estado.textContent || estado.innerText;
-
-        /**
-         * condicional para filtrar los valores que se escriban en el input "filter"
-         * si se sale del indice regresa -1, por lo tanto si el valor da igual a -1 se esconde el TR de la tabla
-         * si es mayor a -1 se sigue mostrando 
-         */
-        if (valorNombre.toUpperCase().indexOf(filter) > -1 || valorFolio.toUpperCase().indexOf(filter) > -1 
-          || valorConcursos.toUpperCase().indexOf(filter) > -1 || valorEstado.toUpperCase().indexOf(filter) > -1) {
-          
-          tr[i].style.display = "";
-        } else {
-          tr[i].style.display = "none";
-        }
-      }
-      
-      /**FIN  */
-
-      
-      
-    }
-
-    
-}
-
-//FUNCION PARA EL MODAL DE MAS INFORMACION EN LA LISTA DE ASISTENTES
-window.onload = function(){
-  let botonesInfo = document.querySelectorAll('.botonInfo');
-  let divNombre = document.getElementById('divNombre');
-  let divNacimiento = document.getElementById('divNacimiento');
-  let divEscuela = document.getElementById('divEscuela');
-  let divCorreo = document.getElementById('divCorreo');
-  let divTelefono = document.getElementById('divTelefono');
-  let divCurp = document.getElementById('divCurp');
-  let divFolio = document.getElementById('divFolio');
-  // let ulConcursos = document.getElementById('ulConcursos');
-  let divConcursos = document.getElementById('divConcursos');
-  let divEstatus = document.getElementById('divEstatus');
-  let divImgAsistente = document.getElementById('divImgAsistente');
-  let divImgAsistenteConstancia = document.getElementById('divImgAsistenteConstancia');
-  //let divImgAsistenteActa = document.getElementById('divImgAsistenteActa');
-  let labelNacimiento = document.getElementById('fNacimiento');
-  let labelTelefono = document.getElementById('telefono');
-  let labelCurp = document.getElementById('curp');
-  let labelIdentificacion = document.getElementById('identificacion');
-  //let labelActa = document.getElementById('acta');
-  let labelConstancia = document.getElementById('constancia');
-  let labelEscuela = document.getElementById('escuela');
-  let labelCorreo = document.getElementById('correo');
-  let labelConcursos = document.getElementById('concursos');
-  botonesInfo.forEach(botonInfo => {
-    botonInfo.addEventListener('click', cargarInfoBoton);
+  document.querySelectorAll('.fila-panel').forEach(function (tr) {
+    const texto = normalizarTexto(tr.dataset.buscar);
+    tr.style.display = (filtro === '' || texto.indexOf(filtro) > -1) ? '' : 'none';
   });
-  
-  function cargarInfoBoton(){
-    let valor = this.value;  
-    let containerImgAsistente, /*containerImgAsistenteActa,*/ containerImgAsistenteConstancia, imgContainer;
-    fetch(`/wsgetuserdata/${valor}`)
-        .then(response => response.json())
-        .then(data => {
-          // console.log(data[1]);
-          let pNombreCompleto = document.createElement('p'), pCurp = document.createElement('p');
-          let pNacimiento = document.createElement('p'), pTelefono = document.createElement('p');
-          let pFolio = document.createElement('p'), pEstatus = document.createElement('p');
-          let pEscuela = document.createElement('p'), pCorreo = document.createElement('p');
-          let liConcursos , ulConcursos = document.createElement('ul'), item;
-          containerImgAsistente = document.createElement('img');
-          //containerImgAsistenteActa = document.createElement('img');
-          containerImgAsistenteConstancia = document.createElement('img');
-          // console.log(data[2].length);
-          pNombreCompleto.innerText = `${data[0].nombre} ${data[0].apellido_paterno} ${data[0].apellido_materno}`;
-          pNacimiento.innerText = `${data[0].fecha_nacimiento}`;
-          pCorreo.innerText = `${data[0].correo_electronico}`;
-          pEscuela.innerText = `${data[0].escuela_origen}`;
-          pTelefono.innerText = `${data[0].telefono}`;
-          pCurp.innerText = `${data[0].curp}`;
-          
-          data[0].folio ? pFolio.innerText = `${data[0].folio}` : pFolio.innerText = 'Alumno sin número de folio';
-          
-          if (data[1]) {
-            if (data[1].estado == 'Espera') {
-              pEstatus.innerText = `En revisión`;
-            }else if(data[1].estado == 'Rechazado'){
-              pEstatus.innerText = `Renvío`;
-            }else{
-              pEstatus.innerText = `Inscrito`;
-            } 
-            for (let i = 0; i < data[2].length; i++) {
-              // console.log(data[2][i].nombre);
-              liConcursos = document.createElement('li')
-              liConcursos.appendChild(document.createTextNode(data[2][i].nombre));
-              ulConcursos.appendChild(liConcursos);
-              
-            }
-            labelNacimiento.style.display = '';
-            labelTelefono.style.display = '';
-            labelEscuela.style.display = '';
-            labelCorreo.style.display = '';
-            labelCurp.style.display = '';
-            labelConcursos.style = ''
-            labelIdentificacion.style.display = '';
-            //labelActa.style.display = '';
-            labelConstancia.style.display = '';
-            containerImgAsistente.src = `/storage/${data[0].documentos.foto_asistente}`;
-            //containerImgAsistenteActa.src = `/storage/${data[0].documentos.acta_asistente}` ;
-            containerImgAsistenteConstancia.src = `/storage/${data[0].documentos.constancia_escuela}`;
-            divNombre.appendChild(pNombreCompleto);
-            divNacimiento.appendChild(pNacimiento);
-            divEscuela.appendChild(pEscuela);
-            divCorreo.appendChild(pCorreo);
-            divTelefono.appendChild(pTelefono);
-            divCurp.appendChild(pCurp);
-            divFolio.appendChild(pFolio);
-            divConcursos.appendChild(ulConcursos);
-            divEstatus.appendChild(pEstatus);
-            divImgAsistente.appendChild(containerImgAsistente);
-            //divImgAsistenteActa.appendChild(containerImgAsistenteActa);
-            divImgAsistenteConstancia.appendChild(containerImgAsistenteConstancia);
-          }else{
-            divNombre.appendChild(pNombreCompleto);
-            divFolio.appendChild(pFolio);
-            pEstatus.innerText = `Enviando`;
-            divEstatus.appendChild(pEstatus);
-            labelNacimiento.style = 'display:none;'
-            labelEscuela.style = 'display:none;'
-            labelCorreo.style = 'display:none;'
-            labelTelefono.style = 'display:none;'
-            labelCurp.style = 'display:none;'
-            labelConcursos.style = 'display:none;'
-            labelIdentificacion.style = 'display:none;'
-            //labelActa.style = 'display:none;'
-            labelConstancia.style = 'display:none;'
-            
-          }
-          
-          // console.log(data[0].documentos);
-          // console.log(data);
-        });
-        divNombre.innerHTML = '';
-        divNacimiento.innerHTML = '';
-        divTelefono.innerHTML = '';
-        divEscuela.innerHTML = '';
-        divCorreo.innerHTML = '';
-        divCurp.innerHTML = '';
-        divConcursos.innerHTML = '';
-        divFolio.innerHTML = '';
-        divEstatus.innerHTML = '';
-        divImgAsistente.innerHTML = '';
-        //divImgAsistenteActa.innerHTML = '';
-        divImgAsistenteConstancia.innerHTML = '';
-  }
-
 }
-//FIN FUNCION MODAL
+
+/* ------------------------------------------------------------------ */
+/* 2. MODAL DE MÁS INFORMACIÓN                                         */
+/* ------------------------------------------------------------------ */
+
+let ultimaPeticionModal = 0; // evita que una respuesta lenta pise a una más reciente
+
+document.addEventListener('click', function (e) {
+  const boton = e.target.closest('.botonInfo');
+  if (boton) {
+    cargarInfoAsistente(boton.value);
+  }
+});
+
+function cargarInfoAsistente(id) {
+  const $ = function (x) { return document.getElementById(x); };
+
+  const contenedores = ['divNombre', 'divNacimiento', 'divTelefono', 'divEscuela', 'divCorreo',
+    'divCurp', 'divConcursos', 'divFolio', 'divEstatus', 'divImgAsistente', 'divImgAsistenteConstancia'];
+  const etiquetas = ['fNacimiento', 'telefono', 'curp', 'identificacion', 'constancia', 'escuela', 'correo', 'concursos'];
+
+  const mostrarEtiquetas = function (visible) {
+    etiquetas.forEach(function (e) { $(e).style.display = visible ? '' : 'none'; });
+  };
+  const parrafo = function (texto) {
+    const p = document.createElement('p');
+    p.textContent = texto;
+    return p;
+  };
+  const dato = function (valor) {
+    return (valor === null || valor === undefined || valor === '') ? 'No registrado' : valor;
+  };
+
+  contenedores.forEach(function (c) { $(c).innerHTML = ''; });
+
+  const token = ++ultimaPeticionModal;
+
+  fetch('/wsgetuserdata/' + encodeURIComponent(id), {
+    headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+    credentials: 'same-origin',
+    cache: 'no-store'
+  })
+    .then(function (respuesta) {
+      if (!respuesta.ok) throw new Error('HTTP ' + respuesta.status);
+      return respuesta.json();
+    })
+    .then(function (data) {
+      if (token !== ultimaPeticionModal) return; // llegó una petición más nueva
+
+      const asistente = data[0];
+      const nombreCompleto = [asistente.nombre, asistente.apellido_paterno, asistente.apellido_materno]
+        .filter(Boolean).join(' ');
+
+      $('divNombre').appendChild(parrafo(nombreCompleto));
+      $('divFolio').appendChild(parrafo(asistente.folio ? asistente.folio : 'Alumno sin número de folio'));
+
+      if (data[1]) {
+        let estatus;
+        if (data[1].estado == 'Espera') {
+          estatus = 'En revisión';
+        } else if (data[1].estado == 'Rechazado') {
+          estatus = 'Renvío';
+        } else {
+          estatus = 'Inscrito';
+        }
+
+        const ulConcursos = document.createElement('ul');
+        (data[2] || []).forEach(function (concurso) {
+          const li = document.createElement('li');
+          li.textContent = concurso.nombre;
+          ulConcursos.appendChild(li);
+        });
+
+        mostrarEtiquetas(true);
+        $('divNacimiento').appendChild(parrafo(dato(asistente.fecha_nacimiento)));
+        $('divEscuela').appendChild(parrafo(dato(asistente.escuela_origen)));
+        $('divCorreo').appendChild(parrafo(dato(asistente.correo_electronico)));
+        $('divTelefono').appendChild(parrafo(dato(asistente.telefono)));
+        $('divCurp').appendChild(parrafo(dato(asistente.curp)));
+        $('divConcursos').appendChild(ulConcursos);
+        $('divEstatus').appendChild(parrafo(estatus));
+
+        if (asistente.documentos) {
+          const imgFoto = document.createElement('img');
+          imgFoto.src = '/storage/' + asistente.documentos.foto_asistente;
+          $('divImgAsistente').appendChild(imgFoto);
+
+          const imgConstancia = document.createElement('img');
+          imgConstancia.src = '/storage/' + asistente.documentos.constancia_escuela;
+          $('divImgAsistenteConstancia').appendChild(imgConstancia);
+        }
+      } else {
+        // Todavía no ha enviado documentos
+        mostrarEtiquetas(false);
+        $('divEstatus').appendChild(parrafo('Enviando'));
+      }
+    })
+    .catch(function () {
+      if (token !== ultimaPeticionModal) return;
+      mostrarEtiquetas(false);
+      $('divNombre').appendChild(parrafo('No se pudo cargar la información. Cierra la ventana e inténtalo de nuevo.'));
+    });
+}

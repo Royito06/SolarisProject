@@ -26,6 +26,7 @@
             <input type="text" id="inputBuscadorNombre" onkeyup="buscadorPorNombre()" placeholder="Busca por nombre..." title="Escribe un nombre"> <br>
             <input type="hidden" id="vistaInscritos" name="vistaInscritos" value = 1>
             {{-- fin buscador --}}
+            @include('revisor.partials.indicador_en_vivo', ['vista' => 'inscritos', 'version' => $version])
             <div class="card">
                 <div class="card-body table-responsive p-0" style="max-height: 700px;">
                   <table class="table table-head-fixed text-nowrap">
@@ -38,34 +39,8 @@
                         
                       </tr>
                     </thead>
-                    <tbody>
-                      @foreach ($asistentesInscritos as $asistenteInscrito)
-                        @if (isset($asistenteInscrito->documentos->validaciones))
-                          @if ($asistenteInscrito->documentos->validaciones->last()->estado == 'Aprobado')
-                            @php
-                                  
-                              $arrayConcursos = Array();
-                              for($i = 0 ; $i <  count($asistenteInscrito->concursos) ; $i++){
-                                $arrayConcursos[] = $asistenteInscrito->concursos[$i]->nombre ;
-                                
-                              }
-                              $concursos = implode(", ",$arrayConcursos);
-                            @endphp
-                            <tr id='tablaTR'>
-                              <td><p>{{$asistenteInscrito->nombre}} {{$asistenteInscrito->apellido_paterno}} {{$asistenteInscrito->apellido_materno}}</p></td>
-                              {{-- <td>{{$asistenteInscrito->fecha_creacion}}</td> --}}
-                              <td><p>{{$asistenteInscrito->folio}}</p></td>
-                              <td><p>{{$concursos}}</p></td>
-                              <td><button value="{{$asistenteInscrito->id}}" type="button" class="btn btn-info btn-sm botonInfo" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
-                            </tr>
-
-                            
-                          @endif
-                          
-                        @endif
-                        
-                      @endforeach
-                      
+                    <tbody id="listaTabla">
+                      @include('revisor.partials.filas_inscritos', ['filas' => $filas])
                     </tbody>
                   </table>
                 </div>
@@ -123,5 +98,10 @@
     </div>
   </div>
 </div>
+
 @endsection
-<script src="{{asset('js/admin.js')}}"></script>
+
+@push('scripts')
+<script src="{{ asset('js/admin.js') }}?v={{ filemtime(public_path('js/admin.js')) }}"></script>
+<script src="{{ asset('js/panel-tiempo-real.js') }}?v={{ filemtime(public_path('js/panel-tiempo-real.js')) }}"></script>
+@endpush

@@ -28,58 +28,117 @@ class RevisoresController extends Controller
         return view('revisor.index', compact('revisores'));
     }
 
+    /**
+     * Vistas del panel de asistentes que se refrescan solas (ver panelData()).
+     */
+    const VISTAS_PANEL = ['espera', 'asistentes', 'inscritos'];
+
     public function listaEspera()
     {
-        //$asistentes = Asistente::join('documentos', 'asistentes.id', '=', 'documentos.id_asistente')
-        //->join('validaciones', 'documentos.id', '=', 'validaciones.id_documento')->where('estado', 'Espera')
-        //->select('asistentes.id', 'asistentes.nombre', 'documentos.created_at')
-        //->orderBy('created_at', 'asc')->get();
-        //$asistentes_espera = $asistentes->where()
-        // dd($asistentes);
-        $asistentes = Asistente::all();
-
-        return view('revisor.listaEspera', compact('asistentes'));
+        return $this->renderPanel('espera', 'revisor.listaEspera');
     }
 
     public function listaAsistentes()
     {
-        // $asistentes = Asistente::with('documentos')->has('documentos')->get(); ASISNTENTE CON DOCUMENTOS
-
-
-        // $asistentes = Asistente::join('documentos','asistentes.id', '=', 'documentos.id_asistente')
-        // ->orderBy('nombre')->latest('documentos.created_at')->get();
-        // collect($asistentes);
-        // foreach ($asistentes as $key => $asistente) {
-        //     if ($asistente->documentos) {
-        //         $asistentes[$key] = $asistente;
-        //     }
-        // }
-        // $asistentes = $asistentes->unique('nombre')->values()->all();
-        // dd($asistentes);
-        $asistentes = Asistente::all();
-        
-        
-        return view('revisor.listaAsistentes',compact('asistentes'));
+        return $this->renderPanel('asistentes', 'revisor.listaAsistentes');
     }
 
     public function listaInscritos()
     {
-        /**
-         * 
-         */
-        // $asistentesInscritos = DB::table('asistentes')
-        //     ->join('documentos', 'asistentes.id', '=', 'documentos.id_asistente')
-        //     ->join('validaciones', function($join){
-        //         $join->on('documentos.id', '=', 'validaciones.id_documento' )
-        //                 ->where('validaciones.estado', '=', 'Aprobado');
-        //     })
-        //     ->join('concursos','asistentes.id', '=','concursos.id')
-        //     ->select('asistentes.*', 'validaciones.estado','documentos.fecha_creacion','concursos.nombre as nombre_concurso')
-        //     ->orderBy('nombre_concurso')->orderBy('asistentes.folio')
-        //     ->get();
-        $asistentesInscritos = Asistente::all();
+        return $this->renderPanel('inscritos', 'revisor.listaInscritos');
+    }
 
-        return view('revisor.listaInscritos', compact('asistentesInscritos'));
+    /**
+     * Endpoint JSON que consulta el panel cada pocos segundos (public/js/panel-tiempo-real.js).
+     *
+     * Recibe la "version" que el navegador ya tiene (?v=...). Si no cambió nada responde
+     * solo {changed:false}; si cambió, devuelve el HTML de las filas ya renderizado con
+     * la MISMA plantilla parcial que usa la carga inicial, así hay una sola fuente de verdad.
+     */
+    public function panelData(Request $request, $vista)
+    {
+        abort_unless(in_array($vista, self::VISTAS_PANEL, true), 404);
+
+        $filas = $this->filasPanel($vista);
+        $version = $this->versionPanel($filas);
+
+        if ($request->query('v') === $version) {
+            $respuesta = ['changed' => false, 'version' => $version];
+        } else {
+            $respuesta = [
+                'changed' => true,
+                'version' => $version,
+                'total'   => $filas->count(),
+                'html'    => view('revisor.partials.filas_' . $vista, ['filas' => $filas])->render(),
+            ];
+        }
+
+        return response()->json($respuesta)
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+    }
+
+    private function renderPanel($vista, $plantilla)
+    {
+        $filas = $this->filasPanel($vista);
+
+        return view($plantilla, [
+            'filas'   => $filas,
+            'version' => $this->versionPanel($filas),
+        ]);
+    }
+
+    /**
+     * Huella de los datos mostrados: si cambia cualquier dato o estatus, cambia la huella.
+     */
+    private function versionPanel($filas)
+    {
+        return md5($filas->toJson());
+    }
+
+    /**
+     * Construye las filas de cada lista con 4 consultas en total (antes eran
+     * varias consultas POR asistente) y calcula el estatus de forma segura:
+     *   - sin documentos            -> null       ("Enviando")
+     *   - con documentos sin validar -> 'Espera'
+     *   - con validación            -> su estado (Espera / Rechazado / Aprobado)
+     */
+    private function filasPanel($vista)
+    {
+        $filas = Asistente::with(['asesor', 'concursos', 'documentosTodos.validaciones'])
+            ->orderBy('id')
+            ->get()
+            ->map(function ($asistente) {
+                $documento  = $asistente->documentosTodos->sortBy('id')->last();
+                $validacion = $documento ? $documento->validaciones->sortBy('id')->last() : null;
+
+                if (!$documento) {
+                    $estado = null;
+                } else {
+                    $estado = ($validacion && $validacion->estado) ? $validacion->estado : 'Espera';
+                }
+
+                $fechaEnvio = ($documento && $documento->created_at) ? $documento->created_at : $asistente->created_at;
+
+                return [
+                    'id'              => $asistente->id,
+                    'nombre'          => $asistente->nombre,
+                    'nombre_completo' => trim(preg_replace('/\s+/', ' ', $asistente->nombre . ' ' . $asistente->apellido_paterno . ' ' . $asistente->apellido_materno)),
+                    'folio'           => $asistente->folio,
+                    'escuela'         => $asistente->escuela_origen,
+                    'concursos'       => $asistente->concursos->pluck('nombre')->implode(', '),
+                    'estado'          => $estado,
+                    'asesor'          => $asistente->asesor ? $asistente->asesor->nombre : null,
+                    'fecha_envio'     => $fechaEnvio ? $fechaEnvio->format('Y-m-d H:i:s') : null,
+                ];
+            });
+
+        if ($vista === 'espera') {
+            $filas = $filas->where('estado', 'Espera');
+        } elseif ($vista === 'inscritos') {
+            $filas = $filas->where('estado', 'Aprobado');
+        }
+
+        return $filas->values();
     }
 
     /**
@@ -222,27 +281,25 @@ class RevisoresController extends Controller
     }
 
     public function wsGetUserData($id){
-        
+
         $userData = Asistente::findOrFail($id);
-        // dump($userData->documentos->validaciones->last());
+
         if ($userData->documentos()->exists()) {
-            $userStatus = $userData->documentos->validaciones->last();
+            $userStatus = $userData->documentos->validaciones->sortBy('id')->last();
+            // Documentos enviados pero sin registro de validación todavía = en revisión.
+            if (!$userStatus) {
+                $userStatus = ['estado' => 'Espera'];
+            }
             $userCourses = $userData->concursos;
-            // dump(gettype($userCourses));
-            $data = array($userData, $userStatus,$userCourses);
+            $data = array($userData, $userStatus, $userCourses);
         }else{
             $inscrito = false;
             $data = array($userData, $inscrito);
         }
-        
-        
-        
-        // $userPhoto= $userData->documentos->foto_asistente;
-        // $userCertificate= $userData->documentos->acta_asistente;
-        // $userSchool= $userData->documentos->constancia_escuela;
-        
-        
-        return json_encode($data);
+
+        // Sin caché para que el modal siempre muestre el estatus más reciente.
+        return response()->json($data)
+            ->header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
     }
 
 
