@@ -53,6 +53,11 @@ Route::prefix('revisores')->middleware('auth:revisor')->group(function () {
     Route::get('/', 'RevisoresController@index')->name('revisores.index');
     Route::post('/cargar-correos', 'RevisoresController@store')->name('revisores.store');
     Route::get('/lista-espera', 'RevisoresController@listaEspera')->name('revisores.lista-espera');
+    Route::get('/generar-aspirantes-prueba', function () {
+        require_once database_path('seeds/AsistenteSeeder.php');
+        (new \AsistenteSeeder())->run();
+        return redirect()->route('revisores.lista-espera')->with('notification', '¡Se agregaron 3 alumnos de prueba en lista de espera listos para validar!');
+    })->name('revisores.generar-prueba');
     Route::get('/{asistente}/validacion', 'ValidacionesController@edit')->name('validaciones.edit');
     Route::put('/{asistente}', 'ValidacionesController@update')->name('validaciones.update');
     Route::get('/lista-asistentes', 'RevisoresController@listaAsistentes')->name('revisores.lista-asistentes');
