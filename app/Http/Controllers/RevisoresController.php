@@ -74,7 +74,7 @@ class RevisoresController extends Controller
             'rol'             => 'required|in:Revisor,Visualizador,Administrador',
         ], [
             'archivo_correos.mimes' => 'El archivo debe ser de formato .txt o .csv',
-            'rol.required'          => 'Debes seleccionar un rol para los revisores.',
+            'rol.required'          => 'Debes seleccionar un rol para los usuarios.',
             'rol.in'                => 'El rol seleccionado no es válido.',
         ]);
 
@@ -85,59 +85,96 @@ class RevisoresController extends Controller
             $rawText .= file_get_contents($request->file('archivo_correos')->getRealPath()) . "\n";
         }
 
-        // Si se escribieron correos manualmente, los concatenamos
+        // Si se escribieron usuarios manualmente, los concatenamos
         if (!empty(trim($request->correos_manual))) {
             $rawText .= " " . $request->correos_manual;
         }
 
         if (empty(trim($rawText))) {
-            return redirect()->back()->with('error', 'Debes adjuntar un archivo (.txt o .csv) o ingresar al menos un correo de forma manual.');
+            return redirect()->back()->with('error', 'Debes adjuntar un archivo (.txt o .csv) o ingresar al menos un usuario de forma manual.');
         }
 
-        // Separamos los correos por comas, punto y coma, saltos de línea o espacios
-        $correosArray = preg_split('/[\s,;]+/', $rawText, -1, PREG_SPLIT_NO_EMPTY);
+        // Separamos solo por comas o espacios (incluyendo saltos de línea y tabulaciones)
+        $tokens = preg_split('/[,\s]+/', trim($rawText), -1, PREG_SPLIT_NO_EMPTY);
+
+        $items = [];
+        $i = 0;
+        $total = count($tokens);
+        $invalidos = [];
+
+        while ($i < $total) {
+            $token = trim($tokens[$i]);
+
+            // Verificamos si tiene estructura de usuario/correo electrónico
+            if (filter_var($token, FILTER_VALIDATE_EMAIL)) {
+                $usuario = strtolower($token);
+                $password = null;
+
+                // Si el siguiente token existe y no es otro usuario, corresponde a su contraseña
+                if ($i + 1 < $total) {
+                    $siguiente = trim($tokens[$i + 1]);
+                    if (!filter_var($siguiente, FILTER_VALIDATE_EMAIL)) {
+                        $password = $siguiente;
+                        $i++; // Consumimos la contraseña correspondiente
+                    }
+                }
+
+                // Si no se proporcionó contraseña posterior, se asigna la predeterminada
+                if (empty($password)) {
+                    $password = 'Concurso2026!';
+                }
+
+                $items[] = [
+                    'usuario'  => $usuario,
+                    'password' => $password,
+                ];
+            } else {
+                $invalidos[] = $token;
+            }
+            $i++;
+        }
+
+        if (empty($items)) {
+            return redirect()->back()->with('error', 'No se encontraron usuarios válidos en el archivo o texto ingresado.');
+        }
 
         $nuevos = 0;
         $actualizados = 0;
-        $invalidos = [];
 
-        foreach ($correosArray as $correoItem) {
-            $correoLimpio = strtolower(trim($correoItem));
+        foreach ($items as $item) {
+            $usuarioLimpio = $item['usuario'];
+            $passwordLimpia = $item['password'];
 
-            // Validamos que tenga estructura de correo electrónico válida
-            if (filter_var($correoLimpio, FILTER_VALIDATE_EMAIL)) {
-                $partes = explode('@', $correoLimpio);
-                $nombreBase = ucfirst(str_replace(['.', '_', '-'], ' ', $partes[0]));
+            $partes = explode('@', $usuarioLimpio);
+            $nombreBase = ucfirst(str_replace(['.', '_', '-'], ' ', $partes[0]));
 
-                $revisor = Revisores::firstOrNew(['correo' => $correoLimpio]);
+            $revisor = Revisores::firstOrNew(['correo' => $usuarioLimpio]);
 
-                if (!$revisor->exists) {
-                    $revisor->nombre = $nombreBase ?: 'Revisor';
-                    $revisor->apellido_paterno = 'Designado';
-                    $revisor->apellido_materno = 'Comité';
-                    $revisor->contrasena = bcrypt('Concurso2026!');
-                    $revisor->rol = $request->rol;
-                    $revisor->save();
-                    $nuevos++;
-                } else {
-                    // Si ya existe, actualizamos su rol
-                    $revisor->rol = $request->rol;
-                    $revisor->save();
-                    $actualizados++;
-                }
+            if (!$revisor->exists) {
+                $revisor->nombre = $nombreBase ?: 'Usuario';
+                $revisor->apellido_paterno = 'Designado';
+                $revisor->apellido_materno = 'Comité';
+                $revisor->contrasena = bcrypt($passwordLimpia);
+                $revisor->rol = $request->rol;
+                $revisor->save();
+                $nuevos++;
             } else {
-                $invalidos[] = $correoItem;
+                // Si ya existe, actualizamos su rol y su contraseña
+                $revisor->rol = $request->rol;
+                $revisor->contrasena = bcrypt($passwordLimpia);
+                $revisor->save();
+                $actualizados++;
             }
         }
 
-        $mensaje = "¡Operación completada! Se registraron {$nuevos} nuevo(s) revisor(es)";
+        $mensaje = "¡Operación completada! Se registraron {$nuevos} nuevo(s) usuario(s)";
         if ($actualizados > 0) {
-            $mensaje .= " y se actualizaron {$actualizados} existente(s)";
+            $mensaje .= " y se actualizaron {$actualizados} existente(s) (incluyendo sus contraseñas y roles)";
         }
-        $mensaje .= " con el rol '{$request->rol}'. La contraseña temporal asignada es: Concurso2026!";
+        $mensaje .= " con el rol '{$request->rol}'.";
 
         if (count($invalidos) > 0) {
-            $mensaje .= " (Correos no válidos ignorados: " . implode(', ', array_slice($invalidos, 0, 5)) . (count($invalidos) > 5 ? '...' : '') . ")";
+            $mensaje .= " (Usuarios no válidos ignorados: " . implode(', ', array_slice($invalidos, 0, 5)) . (count($invalidos) > 5 ? '...' : '') . ")";
         }
 
         return redirect()->route('revisores.index')->with('success', $mensaje);

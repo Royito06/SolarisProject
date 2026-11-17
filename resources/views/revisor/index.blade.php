@@ -66,7 +66,7 @@
                     <div class="card card-primary card-outline shadow-sm">
                         <div class="card-header">
                             <h3 class="card-title font-weight-bold">
-                                <i class="fas fa-user-plus mr-1"></i> Registrar Revisores (Archivo o Manual)
+                                <i class="fas fa-user-plus mr-1"></i> Registrar Revisores
                             </h3>
                         </div>
                         <form action="{{ route('revisores.store') }}" method="POST" enctype="multipart/form-data">
@@ -77,31 +77,31 @@
                                     <div class="col-md-6 border-right">
                                         <h5 class="text-primary"><i class="fas fa-file-alt mr-1"></i> Opción A: Cargar archivo (.txt / .csv)</h5>
                                         <p class="text-muted small">
-                                            Sube un archivo de texto (<code>.txt</code>) o un archivo separado por comas (<code>.csv</code>) con la lista de correos electrónicos.
+                                            Sube un archivo de texto (<code>.txt</code>) o un archivo separado por comas (<code>.csv</code>). Posterior a escribir un usuario, se debe escribir posteriormente su contraseña correspondiente separada solo por comas o un espacio.
                                         </p>
                                         <div class="form-group">
-                                            <label for="archivo_correos">Seleccionar archivo:</label>
+                                            <label for="archivo_correos">Seleccionar archivo de usuarios:</label>
                                             <div class="custom-file">
                                                 <input type="file" class="custom-file-input" id="archivo_correos" name="archivo_correos" accept=".txt,.csv">
                                                 <label class="custom-file-label" for="archivo_correos">Elegir archivo .txt o .csv...</label>
                                             </div>
                                             <small class="form-text text-muted">
-                                                Los correos en el archivo pueden estar separados por comas, punto y coma o uno por renglón.
+                                                Posterior a escribir un usuario, se debe escribir posteriormente su contraseña correspondiente separada solo por comas o un espacio (ejemplo: <code>usuario@unison.mx, Contraseña123</code> o <code>usuario@unison.mx Contraseña123</code>).
                                             </small>
                                         </div>
                                     </div>
 
                                     {{-- Opción 2: Entrada Manual --}}
                                     <div class="col-md-6">
-                                        <h5 class="text-primary"><i class="fas fa-keyboard mr-1"></i> Opción B: Ingresar correo(s) manualmente</h5>
+                                        <h5 class="text-primary"><i class="fas fa-keyboard mr-1"></i> Opción B: Ingresar usuario(s) manualmente</h5>
                                         <p class="text-muted small">
-                                            Escribe un correo individual o pega varios correos separados por comas o saltos de línea.
+                                            Posterior a escribir un usuario, se debe escribir posteriormente su contraseña correspondiente separada solo por comas o un espacio.
                                         </p>
                                         <div class="form-group">
-                                            <label for="correos_manual">Correos electrónicos:</label>
-                                            <textarea class="form-control" id="correos_manual" name="correos_manual" rows="3" placeholder="ejemplo@unison.mx, revisor2@unison.mx"></textarea>
+                                            <label for="correos_manual">Usuarios y contraseñas:</label>
+                                            <textarea class="form-control" id="correos_manual" name="correos_manual" rows="3" placeholder="usuario1@unison.mx, Contraseña123, usuario2@unison.mx Contraseña456"></textarea>
                                             <small class="form-text text-muted">
-                                                Puedes escribir un único correo o varios separados por comas.
+                                                Posterior a escribir un usuario, se debe escribir posteriormente su contraseña correspondiente separada solo por comas o un espacio.
                                             </small>
                                         </div>
                                     </div>
@@ -126,14 +126,14 @@
                                     <div class="col-md-6">
                                         <div class="alert alert-info mt-2">
                                             <i class="fas fa-info-circle mr-1"></i>
-                                            <strong>Nota de seguridad:</strong> A cada revisor registrado se le creará su cuenta con la contraseña temporal: <code>Concurso2026!</code>
+                                            <strong>Asignación y edición:</strong> A cada usuario se le asignará o actualizará su contraseña especificada (separada por comas o un espacio). Si no se especifica una contraseña posterior al usuario, se asignará la predeterminada: <code>Concurso2026!</code>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-footer bg-white text-right">
                                 <button type="submit" class="btn btn-primary px-4 font-weight-bold">
-                                    <i class="fas fa-save mr-1"></i> Guardar y Registrar Revisores
+                                    <i class="fas fa-save mr-1"></i> Guardar y Registrar
                                 </button>
                             </div>
                         </form>
@@ -148,7 +148,7 @@
                     <div class="card card-secondary card-outline shadow-sm">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h3 class="card-title font-weight-bold">
-                                <i class="fas fa-list mr-1"></i> Revisores y Administradores Registrados
+                                <i class="fas fa-list mr-1"></i> Administradores, Revisores y Visualizadores Registrados
                             </h3>
                             <div class="card-tools ml-auto">
                                 <span class="badge badge-primary px-2 py-1">
@@ -162,7 +162,7 @@
                                     <tr>
                                         <th style="width: 60px;"># ID</th>
                                         <th>Nombre Completo</th>
-                                        <th>Correo Electrónico</th>
+                                        <th>Usuario</th>
                                         <th>Rol / Permiso</th>
                                         <th>Fecha de Registro</th>
                                     </tr>
@@ -176,7 +176,7 @@
                                                 {{ $revisor->nombre }} {{ $revisor->apellido_paterno }} {{ $revisor->apellido_materno }}
                                             </td>
                                             <td>
-                                                <a href="mailto:{{ $revisor->correo }}">{{ $revisor->correo }}</a>
+                                                <i class="fas fa-user mr-1 text-secondary"></i> {{ $revisor->correo }}
                                             </td>
                                             <td>
                                                 @if ($revisor->rol === 'Administrador')
@@ -195,7 +195,7 @@
                                         <tr>
                                             <td colspan="5" class="text-center py-4 text-muted">
                                                 <i class="fas fa-user-slash fa-2x mb-2 d-block"></i>
-                                                Aún no hay revisores dados de alta en el sistema.
+                                                Aún no hay usuarios dados de alta en el sistema.
                                             </td>
                                         </tr>
                                     @endforelse
