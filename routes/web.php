@@ -61,6 +61,11 @@ Route::prefix('revisores')->middleware('auth:revisor')->group(function () {
     Route::middleware('rol:Administrador,Revisor')->group(function () {
         Route::get('/{asistente}/validacion', 'ValidacionesController@edit')->name('validaciones.edit');
         Route::put('/{asistente}', 'ValidacionesController@update')->name('validaciones.update');
+        Route::get('/generar-aspirantes-prueba', function () {
+            require_once database_path('seeds/AsistenteSeeder.php');
+            (new \AsistenteSeeder())->run();
+            return redirect()->route('revisores.lista-espera')->with('notification', '¡Se agregaron 3 alumnos de prueba en lista de espera listos para validar!');
+        })->name('revisores.generar-prueba');
     });
 
     // Todos los roles: solo lectura
@@ -73,4 +78,3 @@ Route::get('wsgetuserdata/{userID}', 'RevisoresController@wsGetUserData');
 Route::get('admin', 'Auth\LoginRevisorController@showLoginForm')->middleware('guest:revisor');
 Route::post('admin/login', 'Auth\LoginRevisorController@login')->name('admin.login');
 Route::post('admin/logout', 'Auth\LoginRevisorController@logout')->name('admin.logout');
-

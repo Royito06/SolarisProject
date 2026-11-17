@@ -30,13 +30,15 @@ class RevisoresController extends Controller
 
     public function listaEspera()
     {
-        //$asistentes = Asistente::join('documentos', 'asistentes.id', '=', 'documentos.id_asistente')
-        //->join('validaciones', 'documentos.id', '=', 'validaciones.id_documento')->where('estado', 'Espera')
-        //->select('asistentes.id', 'asistentes.nombre', 'documentos.created_at')
-        //->orderBy('created_at', 'asc')->get();
-        //$asistentes_espera = $asistentes->where()
-        // dd($asistentes);
-        $asistentes = Asistente::all();
+        $asistentes = Asistente::with(['documentos.validaciones'])
+            ->get()
+            ->filter(function ($asistente) {
+                if (!$asistente->documentos || !$asistente->documentos->validaciones || $asistente->documentos->validaciones->isEmpty()) {
+                    return false;
+                }
+                $ultimaValidacion = $asistente->documentos->validaciones->last();
+                return $ultimaValidacion && $ultimaValidacion->estado === 'Espera';
+            });
 
         return view('revisor.listaEspera', compact('asistentes'));
     }

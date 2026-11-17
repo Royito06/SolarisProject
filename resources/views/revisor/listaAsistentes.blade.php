@@ -79,13 +79,17 @@
                                 FIN CODIGO
                               --}}
                               <td><p>{{$concursos}}</p></td>
-                              @if ($asistente->documentos->validaciones->last()->estado == 'Espera')
-
+                              @php
+                                $valUltima = ($asistente->documentos && $asistente->documentos->validaciones) ? $asistente->documentos->validaciones->last() : null;
+                              @endphp
+                              @if ($valUltima && $valUltima->estado == 'Espera')
                                 <td><p>Espera</p></td>
-                              @elseif($asistente->documentos->validaciones->last()->estado == 'Rechazado')
-                                <td><p>Renvío</p></td>
-                              @elseif($asistente->documentos->validaciones->last()->estado == 'Aprobado')
+                              @elseif($valUltima && $valUltima->estado == 'Rechazado')
+                                <td><p>Reenvío</p></td>
+                              @elseif($valUltima && $valUltima->estado == 'Aprobado')
                                 <td><p>Inscrito</p></td>
+                              @else
+                                <td><p>Sin validar</p></td>
                               @endif
                             
                             @else

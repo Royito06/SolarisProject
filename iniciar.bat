@@ -15,9 +15,10 @@ if %errorlevel% equ 0 (
     echo [OK] Base de datos MariaDB ya esta en ejecucion en puerto 3307.
 ) else (
     echo [*] Iniciando MariaDB en puerto 3307...
-    start /b "" "C:\tools\mysql\bin\mysqld.exe" --port=3307 --datadir="C:/tools/mysql/data"
+    del /f /q "C:\tools\mysql\data\*.pid" 2>nul
+    start "" /min "C:\tools\mysql\bin\mysqld.exe" --port=3307 --datadir="C:/tools/mysql/data"
     timeout /t 3 /nobreak >nul
-    echo [OK] MariaDB iniciada.
+    echo [OK] MariaDB iniciada en puerto 3307.
 )
 
 echo.
@@ -27,10 +28,13 @@ echo   Presiona CTRL+C en esta ventana para detener el servidor
 echo ========================================================
 echo.
 
-:: Abrir navegador automaticamente
-start http://127.0.0.1:8000
+:: Abrir navegador en el panel de administracion
+start http://127.0.0.1:8000/admin
 
 :: Iniciar servidor Laravel
 php artisan serve --port=8000
-pause
-
+if %errorlevel% neq 0 (
+    echo.
+    echo [ERROR] El servidor Laravel se ha detenido.
+    pause
+)

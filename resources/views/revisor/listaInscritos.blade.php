@@ -40,8 +40,10 @@
                     </thead>
                     <tbody>
                       @foreach ($asistentesInscritos as $asistenteInscrito)
-                        @if (isset($asistenteInscrito->documentos->validaciones))
-                          @if ($asistenteInscrito->documentos->validaciones->last()->estado == 'Aprobado')
+                        @php
+                          $valInscrito = ($asistenteInscrito->documentos && $asistenteInscrito->documentos->validaciones) ? $asistenteInscrito->documentos->validaciones->last() : null;
+                        @endphp
+                        @if ($valInscrito && $valInscrito->estado == 'Aprobado')
                             @php
                                   
                               $arrayConcursos = Array();

@@ -2,40 +2,74 @@
 
 @section('content')
 @php
-    //dd(Auth::user()->documentos->validaciones()->latest()->first());
-    //dd(Auth::user()->concursos()->get()->all());
+    $validacionActual = Auth::user()->documentos ? Auth::user()->documentos->validaciones()->latest()->first() : null;
 @endphp
     <div class="container">
         <div class="justify-content-center">
-            <!--
-            <div class="container">
-                <div class="card-header h-secundario">{{ __('Información de asistente') }}</div>
-            </div>
-        -->
+
+            {{-- Notificación visual de estatus en el perfil --}}
+            @if ($validacionActual)
+                @if ($validacionActual->estado == "Aprobado")
+                    <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+                        <h4 class="alert-heading font-weight-bold">
+                            <i class="fas fa-check-circle mr-2"></i>¡Felicidades! Tu inscripción ha sido APROBADA
+                        </h4>
+                        <p class="mb-1">
+                            El Comité Evaluador ha validado tu documentación. Tu número de folio oficial para el concurso es: 
+                            <strong class="badge badge-success" style="font-size: 1.1em; letter-spacing: 1px;">{{ Auth::user()->folio }}</strong>
+                        </p>
+                        <hr>
+                        <p class="mb-0 small">
+                            Se ha enviado un correo electrónico de confirmación a <strong>{{ Auth::user()->correo_electronico }}</strong> con las instrucciones para el día del evento.
+                        </p>
+                    </div>
+                @elseif ($validacionActual->estado == "Rechazado")
+                    <div class="alert alert-danger alert-dismissible fade show shadow-sm" role="alert">
+                        <h4 class="alert-heading font-weight-bold">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>Tu solicitud requiere correcciones
+                        </h4>
+                        <p class="mb-1">
+                            El Comité Evaluador revisó tus documentos y encontró observaciones que debes corregir para poder participar.
+                        </p>
+                        <hr>
+                        <p class="mb-0 small">
+                            Se ha enviado una notificación detallada a tu correo <strong>{{ Auth::user()->correo_electronico }}</strong>. También puedes consultar los detalles abajo y reenviar tus archivos.
+                        </p>
+                    </div>
+                @elseif ($validacionActual->estado == "Espera")
+                    <div class="alert alert-info alert-dismissible fade show shadow-sm" role="alert">
+                        <h4 class="alert-heading font-weight-bold">
+                            <i class="fas fa-clock mr-2"></i>Documentos en revisión
+                        </h4>
+                        <p class="mb-0">
+                            Tus documentos han sido recibidos y se encuentran en lista de espera para ser evaluados por los revisores del concurso.
+                        </p>
+                    </div>
+                @endif
+            @endif
+
             <div class="card-body" style="overflow: hidden;">
-                <!--<img style="height: 256px; float: left; " src="/img/prueba.jpg" alt="">-->
                 <div style="font-size: 20px">
-                    <label for=""><b>Estatus de la solicitud de inscripción</b></label>
+                    <label for=""><b>Estatus de la solicitud de inscripción: </b></label>
                     @if (Auth::user()->documentos)
-                        @if (Auth::user()->documentos->validaciones()->latest()->first()->estado == "Rechazado")
-                            <span class="badge badge-danger">Rechazado</span>
-                        @endif
-                        @if (Auth::user()->documentos->validaciones()->latest()->first()->estado == "Espera")
+                        @if ($validacionActual && $validacionActual->estado == "Rechazado")
+                            <span class="badge badge-danger">Rechazado con observaciones</span>
+                        @elseif ($validacionActual && $validacionActual->estado == "Espera")
                             <span class="badge badge-secondary">En revisión</span>
-                        @endif
-                        @if (Auth::user()->documentos->validaciones()->latest()->first()->estado == "Aprobado")
+                        @elseif ($validacionActual && $validacionActual->estado == "Aprobado")
                             <span class="badge badge-success">Inscrito</span>
                         @endif
                     @else
-                        <span class="badge badge-dark">En proceso</span>
+                        <span class="badge badge-dark">En proceso de registro</span>
                     @endif
                 </div>
+
                 <div style="font-size: 20px;">
                     <label class="col-md-3 col-form-label text-md-left" for="">Folio: </label>
                     @if (!Auth::user()->folio)
-                        <label for="">Se proporcionará al completar la inscripción satisfactoriamente</label>
+                        <label for="" class="text-muted">Se proporcionará al completar la inscripción satisfactoriamente</label>
                     @else
-                        <label for="">{{ Auth::user()->folio }}</label>
+                        <label for=""><strong style="color: #004990;">{{ Auth::user()->folio }}</strong></label>
                     @endif
                 </div>
                 <div style="font-size: 20px">
@@ -68,20 +102,18 @@
                         <label class="col-md-3 col-form-label text-md-left" for="">Concurso(s):</label>
                         <label for="">
                             @foreach (Auth::user()->concursos()->get()->all() as $concurso)
-                                {{ $concurso->nombre }},
+                                <span class="badge badge-light border">{{ $concurso->nombre }}</span>
                             @endforeach
                         </label>
                     </div>
                     <div style="font-size: 20px">
                         <label class="col-md-3 col-form-label text-md-left" for="">Foto para credencial:</label>
-                        <img src="/storage/{{ Auth::user()->documentos->foto_asistente }}" alt="">
+                        <img src="/storage/{{ Auth::user()->documentos->foto_asistente }}" alt="" style="max-height: 200px; border-radius: 4px; border: 1px solid #ddd;">
                     </div>
-                    <br>
-
                     <br>
                     <div style="font-size: 20px">
                         <label class="col-md-3 col-form-label text-md-left" for="">Constancia escolar:</label>
-                        <img src="/storage/{{ Auth::user()->documentos->constancia_escuela }}" alt="">
+                        <img src="/storage/{{ Auth::user()->documentos->constancia_escuela }}" alt="" style="max-height: 200px; border-radius: 4px; border: 1px solid #ddd;">
                     </div>
 
                 @endif
@@ -105,40 +137,28 @@
             </div>
         </div>
         @else
-            @if (Auth::user()->documentos->validaciones()->latest()->first()->estado == "Rechazado")
-                <div class="container justify-content-center">
-                    <div class="container container-h-secundario">
-                        <div class="card-header h-secundario">
-                            {{ __('Documentos rechazados') }}
+            @if ($validacionActual && $validacionActual->estado == "Rechazado")
+                <div class="container justify-content-center mt-3">
+                    <div class="card card-danger card-outline shadow-sm">
+                        <div class="card-header bg-danger text-white">
+                            <h5 class="card-title mb-0 font-weight-bold">
+                                <i class="fas fa-exclamation-circle mr-1"></i> Observaciones del Comité Evaluador
+                            </h5>
                         </div>
-                    </div>
-                    <div class="card-body" style="overflow: hidden; font-size: 20px;">
-                        <!--<p>A continuacion se te mostraran los archivos que se te rechazaron y su razon de rechazo.</p>-->
-                        <p><b>{{ Auth::user()->documentos->validaciones()->latest()->first()->doc_rechazado }}</b></p>
-                        <pre>{{ Auth::user()->documentos->validaciones()->latest()->first()->comentario }}</pre>
+                        <div class="card-body" style="font-size: 18px;">
+                            <p><strong>Documento(s) observados:</strong> <span class="badge badge-warning text-dark p-2">{{ $validacionActual->doc_rechazado }}</span></p>
+                            <div class="bg-light p-3 border rounded mb-3">
+                                <pre style="margin: 0; font-family: inherit; font-size: 16px; white-space: pre-wrap;">{{ $validacionActual->comentario }}</pre>
+                            </div>
 
-                        <div>Te invitamos a atender las observaciones anteriores y actualizar tus documentos para continuar con el proceso de inscripción.</div>
-                        
-{{--
-                         <div style="font-size: 20px">
-                            <label class="col-md-6 col-form-label text-md-center" for="">Foto para la credencial</label>
-                            <span class="badge badge-success">Aceptado</span>
-                            <span class="badge badge-danger">Rechazado</span>
-                        </div>
-                        <div style="font-size: 20px">
-                            <label class="col-md-6 col-form-label text-md-center" for="">Acta de nacimiento</label>
-                            <span class="badge badge-success">Aceptado</span>
-                            <span class="badge badge-danger">Rechazado</span>
-                        </div>
-                        <div style="font-size: 20px">
-                            <label class="col-md-6 col-form-label text-md-center" for="">Constancia de estudios</label>
-                            <span class="badge badge-success">Aceptado</span>
-                            <span class="badge badge-danger">Rechazado</span>
-                        </div> 
-    --}}
-                        <div style="font-size: 20px">
-                            @csrf
-                            <a class="btn btn-primary" href="{{route('asistentes.rechazado')}}" style="float: right;" type="submit">Editar</a>
+                            <p class="text-muted">Te invitamos a atender las observaciones anteriores y actualizar tus documentos para continuar con el proceso de inscripción.</p>
+                            
+                            <div class="text-right">
+                                @csrf
+                                <a class="btn btn-warning font-weight-bold px-4" href="{{route('asistentes.rechazado')}}" type="submit">
+                                    <i class="fas fa-edit mr-1"></i> Corregir y Reenviar Documentos
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
