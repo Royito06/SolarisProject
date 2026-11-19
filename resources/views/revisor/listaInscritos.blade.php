@@ -35,6 +35,10 @@
                         <th>No. Folio</th>
                         {{-- <th>Fecha de envio de documento</th> --}}
                         <th>Concursos</th>
+                        <th>Acción</th>
+                        @if (in_array(Auth::guard('revisor')->user()->rol, ['Administrador', 'Revisor'], true))
+                          <th>Descarga</th>
+                        @endif
                         
                       </tr>
                     </thead>
@@ -59,11 +63,11 @@
                               <td><p>{{$asistenteInscrito->folio}}</p></td>
                               <td><p>{{$concursos}}</p></td>
                               <td><button value="{{$asistenteInscrito->id}}" type="button" class="btn btn-info btn-sm botonInfo" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
+                              @if (in_array(Auth::guard('revisor')->user()->rol, ['Administrador', 'Revisor'], true))
+                                <td><a href="{{ route('revisores.exportar-participante', $asistenteInscrito->id) }}" class="btn btn-outline-success btn-sm">Descargar CSV</a></td>
+                              @endif
                             </tr>
 
-                            
-                          @endif
-                          
                         @endif
                         
                       @endforeach

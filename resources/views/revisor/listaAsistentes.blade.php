@@ -9,6 +9,13 @@
                     <h1 class="m-0 text-dark">Lista de todos los alumnos que enviaron documentacion</h1>
                     <hr style="background-color: black;">
                 </div>
+                @if (in_array(Auth::guard('revisor')->user()->rol, ['Administrador', 'Revisor'], true))
+                    <div class="col-sm-4 text-sm-right">
+                        <a href="{{ route('revisores.exportar-participantes') }}" class="btn btn-success">
+                            Descargar todos los participantes (CSV)
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -38,6 +45,9 @@
                         <th>Estatus</th>
                         <th>Acción</th>
                         <th>Asesor</th>
+                        @if (in_array(Auth::guard('revisor')->user()->rol, ['Administrador', 'Revisor'], true))
+                          <th>Descarga</th>
+                        @endif
                       </tr>
                     </thead>
                     <tbody id="listaTabla">
@@ -99,13 +109,15 @@
                             
                             @endif
 
+                            <td><button value="{{$asistente->id}}" type="button" class="btn btn-info btn-sm botonInfo" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
                             <td>
                               <p>{{ $asistente->asesor ? $asistente->asesor->nombre : 'Sin asesor' }}</p>
                             </td>
-                            
-                            <td><button value="{{$asistente->id}}" type="button" class="btn btn-info btn-sm botonInfo" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
+                            @if (in_array(Auth::guard('revisor')->user()->rol, ['Administrador', 'Revisor'], true))
+                              <td><a href="{{ route('revisores.exportar-participante', $asistente->id) }}" class="btn btn-outline-success btn-sm">Descargar CSV</a></td>
+                            @endif
                             {{-- @if ($asistente->documentos->last()->validaciones[$key]->estado == 'Espera' )
-                              <td><a class="btn btn-primary" href="{{ route('validaciones.edit', $asistente->id) }}"  type="submit">Validar</a></td>
+                              <td><a class="btn btn-primary" href="{{ route('validaciones.edit', $asistente->id) }}" type="submit">Validar</a></td>
                             @endif --}}
                             
                           {{-- @else 

@@ -59,6 +59,11 @@ Route::prefix('revisores')->middleware('auth:revisor')->group(function () {
 
     // Administrador y Revisor: validar asistentes
     Route::middleware('rol:Administrador,Revisor')->group(function () {
+        Route::get('/participantes/exportar', 'RevisoresController@exportarParticipantes')->name('revisores.exportar-participantes');
+        Route::get('/participantes/{asistente}/exportar', 'RevisoresController@exportarParticipante')->name('revisores.exportar-participante');
+    });
+
+    Route::middleware('rol:Administrador,Revisor')->group(function () {
         Route::get('/{asistente}/validacion', 'ValidacionesController@edit')->name('validaciones.edit');
         Route::put('/{asistente}', 'ValidacionesController@update')->name('validaciones.update');
         Route::get('/generar-aspirantes-prueba', function () {

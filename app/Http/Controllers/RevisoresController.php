@@ -84,6 +84,89 @@ class RevisoresController extends Controller
         return view('revisor.listaInscritos', compact('asistentesInscritos'));
     }
 
+    public function exportarParticipantes()
+    {
+        $asistentes = Asistente::with(['documentos.validaciones', 'concursos'])->get();
+
+        return $this->descargarCsv($asistentes, 'participantes.csv');
+    }
+
+    public function exportarParticipante($id)
+    {
+        $asistente = Asistente::with(['documentos.validaciones', 'concursos'])->findOrFail($id);
+
+        return $this->descargarCsv(collect([$asistente]), 'participante-' . $asistente->id . '.csv');
+    }
+
+    private function descargarCsv($asistentes, $nombreArchivo)
+    {
+        return response()->streamDownload(function () use ($asistentes) {
+            $salida = fopen('php://output', 'w');
+            fwrite($salida, "\xEF\xBB\xBF");
+
+            fputcsv($salida, [
+                'Nombre',
+                'Fecha de nacimiento',
+                'Escuela',
+                'Correo electrónico',
+                'Teléfono',
+                'CURP',
+                'Número de folio',
+                'Concursos',
+                'Estatus',
+            ]);
+
+            foreach ($asistentes as $asistente) {
+                $validacion = $asistente->documentos
+                    ? $asistente->documentos->validaciones->last()
+                    : null;
+
+                if (!$asistente->documentos) {
+                    $estatus = 'Enviando';
+                } elseif (!$validacion) {
+                    $estatus = 'Sin validar';
+                } elseif ($validacion->estado === 'Espera') {
+                    $estatus = 'En revisión';
+                } elseif ($validacion->estado === 'Rechazado') {
+                    $estatus = 'Reenvío';
+                } else {
+                    $estatus = 'Inscrito';
+                }
+
+                $fila = [
+                    trim(implode(' ', array_filter([
+                        $asistente->nombre,
+                        $asistente->apellido_paterno,
+                        $asistente->apellido_materno,
+                    ], function ($nombre) {
+                        return $nombre !== null && $nombre !== '';
+                    }))),
+                    $asistente->fecha_nacimiento,
+                    $asistente->escuela_origen,
+                    $asistente->correo_electronico,
+                    $asistente->telefono,
+                    $asistente->curp,
+                    $asistente->folio,
+                    $asistente->concursos->pluck('nombre')->implode(', '),
+                    $estatus,
+                ];
+
+                fputcsv($salida, array_map([$this, 'protegerCeldaCsv'], $fila));
+            }
+
+            fclose($salida);
+        }, $nombreArchivo, [
+            'Content-Type' => 'text/csv; charset=UTF-8',
+        ]);
+    }
+
+    private function protegerCeldaCsv($valor)
+    {
+        $valor = (string) ($valor === null ? '' : $valor);
+
+        return preg_match('/^[\t\r\n ]*[=+\-@]/', $valor) ? "'" . $valor : $valor;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
