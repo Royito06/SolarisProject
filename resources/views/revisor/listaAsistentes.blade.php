@@ -43,19 +43,19 @@
                         <th>Escuela</th> 
                         <th>Concursos</th>
                         <th>Estatus</th>
-                        <th>Acción</th>
+                        <th>Revisado por</th>
                         <th>Asesor</th>
+                        <th>Acción</th>
                         @if (in_array(Auth::guard('revisor')->user()->rol, ['Administrador', 'Revisor'], true))
                           <th>Descarga</th>
                         @endif
                       </tr>
                     </thead>
                     <tbody id="listaTabla">
-                      @php
-                          // dd($asistentes[3]->documentos->validaciones->last());
-                          // dd($asistentes[1]->documentos()->exists());
-                      @endphp
                       @foreach ($asistentes as $key => $asistente)
+                        @php
+                          $valUltima = null;
+                        @endphp
                       
                         <tr id='tablaTR'>
                           <td><p id='nombre'>{{$asistente->nombre}} {{$asistente->apellido_paterno}} {{$asistente->apellido_materno}}</p></td>
@@ -108,11 +108,21 @@
                               <td><p>Enviando</p></td>
                             
                             @endif
+                            <td>
+                                @if ($valUltima && $valUltima->revisor)
+                                    <p>
+                                        {{ $valUltima->revisor->nombre }} {{ $valUltima->revisor->apellido_paterno }}
+                                        <br><small class="text-muted">{{ $valUltima->fecha_validacion }}</small>
+                                    </p>
+                                @else
+                                    <p class="text-muted">Pendiente</p>
+                                @endif
+                            </td>
 
-                            <td><button value="{{$asistente->id}}" type="button" class="btn btn-info btn-sm botonInfo" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
                             <td>
                               <p>{{ $asistente->asesor ? $asistente->asesor->nombre : 'Sin asesor' }}</p>
                             </td>
+                            <td><button value="{{$asistente->id}}" type="button" class="btn btn-info btn-sm botonInfo" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
                             @if (in_array(Auth::guard('revisor')->user()->rol, ['Administrador', 'Revisor'], true))
                               <td><a href="{{ route('revisores.exportar-participante', $asistente->id) }}" class="btn btn-outline-success btn-sm">Descargar CSV</a></td>
                             @endif
@@ -166,8 +176,10 @@
         <div id="divConcursos">
           
         </div>
-        <label for="divEstatus">Estatus</label>
+       <label for="divEstatus">Estatus</label>
         <div id="divEstatus"></div>
+        <label for="divAuditoria" id="auditoria">Historial de Auditoría (Validaciones / Rechazos)</label>
+        <div id="divAuditoria"></div>
         <label for="divImgAsistente" id="identificacion">Foto identificatoria</label>
         <div id="divImgAsistente"></div>
         <!--

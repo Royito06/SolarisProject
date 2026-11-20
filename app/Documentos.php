@@ -19,7 +19,7 @@ class Documentos extends Model
     // }
 
     public function asistente(){
-        return $this->belongsTo(Asistente::class);
+        return $this->belongsTo(Asistente::class, 'id_asistente');
     }
 
     public function validaciones(){

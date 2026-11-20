@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Asistente;
+use App\Validaciones;
 use App\Revisores;
 // use App\Asistente;
 use Illuminate\Http\Request;
@@ -57,8 +58,9 @@ class RevisoresController extends Controller
         //     }
         // }
         // $asistentes = $asistentes->unique('nombre')->values()->all();
-        // dd($asistentes);
-        $asistentes = Asistente::all();
+      // En listaAsistentes():
+        $asistentes = Asistente::with(['documentos.validaciones.revisor', 'concursos', 'asesor'])->get();
+
         
         
         return view('revisor.listaAsistentes',compact('asistentes'));
@@ -79,7 +81,7 @@ class RevisoresController extends Controller
         //     ->select('asistentes.*', 'validaciones.estado','documentos.fecha_creacion','concursos.nombre as nombre_concurso')
         //     ->orderBy('nombre_concurso')->orderBy('asistentes.folio')
         //     ->get();
-        $asistentesInscritos = Asistente::all();
+       $asistentesInscritos = Asistente::with(['documentos.validaciones.revisor', 'concursos'])->get();
 
         return view('revisor.listaInscritos', compact('asistentesInscritos'));
     }
@@ -301,34 +303,40 @@ class RevisoresController extends Controller
      * @param  \App\Revisores  $revisores
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Revisores $revisores)
-    {
-        //
-    }
+   public function wsGetUserData($id){
+        $userData = Asistente::with(['documentos.validaciones.revisor'])->findOrFail($id);
 
-    public function wsGetUserData($id){
-        
-        $userData = Asistente::findOrFail($id);
-        // dump($userData->documentos->validaciones->last());
         if ($userData->documentos()->exists()) {
-            $userStatus = $userData->documentos->validaciones->last();
+            $historial = $userData->documentos->validaciones()->with('revisor')->orderBy('id', 'desc')->get();
+            $userStatus = $historial->first();
             $userCourses = $userData->concursos;
-            // dump(gettype($userCourses));
-            $data = array($userData, $userStatus,$userCourses);
-        }else{
+            $data = array($userData, $userStatus, $userCourses, $historial);
+        } else {
             $inscrito = false;
             $data = array($userData, $inscrito);
         }
-        
-        
-        
-        // $userPhoto= $userData->documentos->foto_asistente;
-        // $userCertificate= $userData->documentos->acta_asistente;
-        // $userSchool= $userData->documentos->constancia_escuela;
-        
-        
+
         return json_encode($data);
     }
 
+
+    public function auditoria(Request $request)
+    {
+        $query = Validaciones::with(['revisor', 'documento.asistente'])
+            ->whereIn('estado', ['Aprobado', 'Rechazado']);
+
+        if ($request->filled('estado')) {
+            $query->where('estado', $request->estado);
+        }
+
+        if ($request->filled('id_revisor')) {
+            $query->where('id_revisor', $request->id_revisor);
+        }
+
+        $registros = $query->orderBy('updated_at', 'desc')->get();
+        $revisores = Revisores::orderBy('nombre')->get();
+
+        return view('revisor.auditoria', compact('registros', 'revisores'));
+    }   
 
 }

@@ -55,6 +55,7 @@ Route::prefix('revisores')->middleware('auth:revisor')->group(function () {
     Route::middleware('rol:Administrador')->group(function () {
         Route::get('/', 'RevisoresController@index')->name('revisores.index');
         Route::post('/cargar-correos', 'RevisoresController@store')->name('revisores.store');
+        Route::get('/auditoria', 'RevisoresController@auditoria')->name('revisores.auditoria');
     });
 
     // Administrador y Revisor: validar asistentes

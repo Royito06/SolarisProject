@@ -35,6 +35,7 @@
                         <th>No. Folio</th>
                         {{-- <th>Fecha de envio de documento</th> --}}
                         <th>Concursos</th>
+                        <th>Validado por</th>
                         <th>Acción</th>
                         @if (in_array(Auth::guard('revisor')->user()->rol, ['Administrador', 'Revisor'], true))
                           <th>Descarga</th>
@@ -57,11 +58,21 @@
                               }
                               $concursos = implode(", ",$arrayConcursos);
                             @endphp
-                            <tr id='tablaTR'>
+                           <tr id='tablaTR'>
                               <td><p>{{$asistenteInscrito->nombre}} {{$asistenteInscrito->apellido_paterno}} {{$asistenteInscrito->apellido_materno}}</p></td>
                               {{-- <td>{{$asistenteInscrito->fecha_creacion}}</td> --}}
                               <td><p>{{$asistenteInscrito->folio}}</p></td>
                               <td><p>{{$concursos}}</p></td>
+                              <td>
+                                @if ($valInscrito->revisor)
+                                  <p>
+                                    {{ $valInscrito->revisor->nombre }} {{ $valInscrito->revisor->apellido_paterno }}
+                                    <br><small class="text-muted">{{ $valInscrito->fecha_validacion }}</small>
+                                  </p>
+                                @else
+                                  <p class="text-muted">Sin autor</p>
+                                @endif
+                              </td>
                               <td><button value="{{$asistenteInscrito->id}}" type="button" class="btn btn-info btn-sm botonInfo" data-toggle="modal" data-target="#staticBackdrop">Info</button></td>
                               @if (in_array(Auth::guard('revisor')->user()->rol, ['Administrador', 'Revisor'], true))
                                 <td><a href="{{ route('revisores.exportar-participante', $asistenteInscrito->id) }}" class="btn btn-outline-success btn-sm">Descargar CSV</a></td>
@@ -111,6 +122,8 @@
         </div>
         <label for="divEstatus">Estatus</label>
         <div id="divEstatus"></div>
+        <label for="divAuditoria" id="auditoria">Historial de Auditoría (Validaciones / Rechazos)</label>
+        <div id="divAuditoria"></div>
         <label for="divImgAsistente" id="identificacion">Foto identificatoria</label>
         <div id="divImgAsistente"></div>
         <!-- 

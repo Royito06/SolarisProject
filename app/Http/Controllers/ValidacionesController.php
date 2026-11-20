@@ -113,6 +113,11 @@ class ValidacionesController extends Controller
         }
 
         $validacion = $asistente;
+        // Evitar sobreescribir un dictamen ya auditado
+        if ($validacion->estado !== 'Espera') {
+            return redirect()->route('revisores.lista-espera')
+                ->with('jsAlert', 'Esta documentación ya fue dictaminada previamente y no puede modificarse.');
+        }
         $documento = Documentos::findOrFail($validacion->id_documento);
         $concursante = Asistente::findOrFail($documento->id_asistente);
 
@@ -130,9 +135,11 @@ class ValidacionesController extends Controller
         $concursosTexto = implode(", ", $concursosNombres);
 
         // Guardar revisor que emitió el dictamen (Historia 14 - Auditoría)
-        if (Auth::guard('revisor')->check()) {
-            $validacion->id_revisor = Auth::guard('revisor')->id();
+        $revisorActual = Auth::guard('revisor')->user();
+        if(!$revisorActual) {
+            abort(403, 'Se requiere un revisor autenticado para dictaminar.');
         }
+        $validacion->id_revisor = $revisorActual->id;
 
         $correoEnviado = false;
         $mensajeFeedback = '';
@@ -153,6 +160,7 @@ class ValidacionesController extends Controller
                 if (isset($cursos_folio[$curso_id->id - 1])) {
                     $cursos_folio[$curso_id->id - 1] = 1;
                 }
+                
             }
 
             $folio = $año_edicio_folio . "-" . implode("", $cursos_folio) . "-" . $alumnos_aprobados_folio;
@@ -169,6 +177,17 @@ class ValidacionesController extends Controller
             } catch (\Throwable $e) {
                 Log::error("Error al enviar correo de aprobación a {$concursante->correo_electronico}: " . $e->getMessage());
             }
+            Log::info('AUDITORIA_VALIDACION', [
+                'accion'       => $validacion->estado, // 'Aprobado' o 'Rechazado'
+                'validacion_id'=> $validacion->id,
+                'asistente_id' => $concursante->id,
+                'asistente'    => trim("{$concursante->nombre} {$concursante->apellido_paterno} {$concursante->apellido_materno}"),
+                'revisor_id'   => $revisorActual->id,
+                'revisor'      => trim("{$revisorActual->nombre} {$revisorActual->apellido_paterno}"),
+                'revisor_correo' => $revisorActual->correo,
+                'comentario'   => $validacion->comentario,
+                'fecha'        => $validacion->fecha_validacion,
+            ]);
 
             $mensajeFeedback = "¡Aspirante {$concursante->nombre} {$concursante->apellido_paterno} APROBADO con folio {$concursante->folio}!";
             if ($correoEnviado) {
@@ -190,6 +209,8 @@ class ValidacionesController extends Controller
             }
 
             $comentario = [];
+            
+
             if (!empty($request->fotoRechazo)) {
                 if (empty(trim($request->textoFotoRechazo))) {
                     return redirect()->back()->withInput()->with('jsAlert', "Faltó escribir la razón de rechazo para la Foto de credencial.");
@@ -217,6 +238,18 @@ class ValidacionesController extends Controller
             } catch (\Throwable $e) {
                 Log::error("Error al enviar correo de rechazo a {$concursante->correo_electronico}: " . $e->getMessage());
             }
+            
+            Log::info('AUDITORIA_VALIDACION', [
+                'accion'       => $validacion->estado, // 'Aprobado' o 'Rechazado'
+                'validacion_id'=> $validacion->id,
+                'asistente_id' => $concursante->id,
+                'asistente'    => trim("{$concursante->nombre} {$concursante->apellido_paterno} {$concursante->apellido_materno}"),
+                'revisor_id'   => $revisorActual->id,
+                'revisor'      => trim("{$revisorActual->nombre} {$revisorActual->apellido_paterno}"),
+                'revisor_correo' => $revisorActual->correo,
+                'comentario'   => $validacion->comentario,
+                'fecha'        => $validacion->fecha_validacion,
+            ]);
 
             $mensajeFeedback = "El aspirante {$concursante->nombre} {$concursante->apellido_paterno} fue puesto en estatus de RECHAZADO / CON OBSERVACIONES.";
             if ($correoEnviado) {

@@ -64,6 +64,7 @@ window.onload = function(){
   // let ulConcursos = document.getElementById('ulConcursos');
   let divConcursos = document.getElementById('divConcursos');
   let divEstatus = document.getElementById('divEstatus');
+  let divAuditoria = document.getElementById('divAuditoria');
   let divImgAsistente = document.getElementById('divImgAsistente');
   let divImgAsistenteConstancia = document.getElementById('divImgAsistenteConstancia');
   //let divImgAsistenteActa = document.getElementById('divImgAsistenteActa');
@@ -76,6 +77,7 @@ window.onload = function(){
   let labelEscuela = document.getElementById('escuela');
   let labelCorreo = document.getElementById('correo');
   let labelConcursos = document.getElementById('concursos');
+  let labelAuditoria = document.getElementById('auditoria');
   botonesInfo.forEach(botonInfo => {
     botonInfo.addEventListener('click', cargarInfoBoton);
   });
@@ -126,6 +128,7 @@ window.onload = function(){
             labelCorreo.style.display = '';
             labelCurp.style.display = '';
             labelConcursos.style = ''
+            if (labelAuditoria) labelAuditoria.style.display = '';
             labelIdentificacion.style.display = '';
             //labelActa.style.display = '';
             labelConstancia.style.display = '';
@@ -141,6 +144,25 @@ window.onload = function(){
             divFolio.appendChild(pFolio);
             divConcursos.appendChild(ulConcursos);
             divEstatus.appendChild(pEstatus);
+            if (divAuditoria && Array.isArray(data[3])) {
+                let ulAuditoria = document.createElement('ul');
+                let dictamenes = data[3].filter(v => v.estado === 'Aprobado' || v.estado === 'Rechazado');
+
+                if (dictamenes.length === 0) {
+                    divAuditoria.innerText = 'Sin dictámenes registrados aún.';
+                } else {
+                    dictamenes.forEach(v => {
+                        let li = document.createElement('li');
+                        let autor = v.revisor
+                            ? `${v.revisor.nombre} ${v.revisor.apellido_paterno} (${v.revisor.correo})`
+                            : 'Autor no registrado';
+                        li.innerText = `[${v.estado}] por ${autor} — ${v.fecha_validacion || v.updated_at}` +
+                            (v.comentario ? ` | Obs: ${v.comentario}` : '');
+                        ulAuditoria.appendChild(li);
+                    });
+                    divAuditoria.appendChild(ulAuditoria);
+                }
+            }
             divImgAsistente.appendChild(containerImgAsistente);
             //divImgAsistenteActa.appendChild(containerImgAsistenteActa);
             divImgAsistenteConstancia.appendChild(containerImgAsistenteConstancia);
@@ -155,6 +177,7 @@ window.onload = function(){
             labelTelefono.style = 'display:none;'
             labelCurp.style = 'display:none;'
             labelConcursos.style = 'display:none;'
+            if (labelAuditoria) labelAuditoria.style.display = 'none';
             labelIdentificacion.style = 'display:none;'
             //labelActa.style = 'display:none;'
             labelConstancia.style = 'display:none;'
@@ -173,8 +196,8 @@ window.onload = function(){
         divConcursos.innerHTML = '';
         divFolio.innerHTML = '';
         divEstatus.innerHTML = '';
+        if (divAuditoria) divAuditoria.innerHTML = '';
         divImgAsistente.innerHTML = '';
-        //divImgAsistenteActa.innerHTML = '';
         divImgAsistenteConstancia.innerHTML = '';
   }
 

@@ -10,7 +10,7 @@ echo.
 set "PATH=C:\tools\mysql\bin;C:\tools\node;C:\tools\php;%PATH%"
 
 :: Verificar si MariaDB esta corriendo en puerto 3307
-netstat -ano | findstr ":3307" >nul
+tasklist /FI "IMAGENAME eq mysqld.exe" | find /I "mysqld.exe" >nul
 if %errorlevel% equ 0 (
     echo [OK] Base de datos MariaDB ya esta en ejecucion en puerto 3307.
 ) else (
